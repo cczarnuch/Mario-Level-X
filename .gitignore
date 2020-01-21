@@ -1,2 +1,6 @@
-.idea/
-*.swp
+# Project files
+src/.idea/
+src/*.swp
+
+# Other files
+*.aux
