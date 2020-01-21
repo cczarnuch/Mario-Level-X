@@ -1,6 +1,7 @@
 # Project files
 src/.idea/
 src/*.swp
+__pycache__/*
 
 # Other files
 *.aux
