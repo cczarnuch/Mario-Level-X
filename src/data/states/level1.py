@@ -87,12 +87,12 @@ class Level1(tools._State):
     def setup_pipes(self):
         """Create collideable rects for all the pipes"""
 
-        pipe1 = collider.Collider(1202, 452, 83, 82)
-        pipe2 = collider.Collider(1631, 409, 83, 140)
-        pipe3 = collider.Collider(1973, 366, 83, 170)
-        pipe4 = collider.Collider(2445, 366, 83, 170)
-        pipe5 = collider.Collider(6989, 452, 83, 82)
-        pipe6 = collider.Collider(7675, 452, 83, 82)
+        pipe1 = collider.Pipe(1202, 82)
+        pipe2 = collider.Pipe(1631, 140)
+        pipe3 = collider.Pipe(1973, 170)
+        pipe4 = collider.Pipe(2445, 170)
+        pipe5 = collider.Pipe(6989, 82)
+        pipe6 = collider.Pipe(7675, 82)
 
         self.pipe_group = pg.sprite.Group(pipe1, pipe2,
                                           pipe3, pipe4,
@@ -1418,6 +1418,10 @@ class Level1(tools._State):
         self.powerup_group.draw(self.level)
         self.coin_group.draw(self.level)
         self.brick_group.draw(self.level)
+
+        self.pipe_group.draw(self.level)
+        self.step_group.draw(self.level)
+
         self.coin_box_group.draw(self.level)
         self.sprites_about_to_die_group.draw(self.level)
         self.shell_group.draw(self.level)
