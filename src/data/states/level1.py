@@ -73,10 +73,14 @@ class Level1(tools._State):
     def setup_ground(self):
         """Creates collideable, invisible rectangles over top of the ground for
         sprites to walk on"""
-        ground_rect1 = collider.Collider(0, c.GROUND_HEIGHT,    2953, 60)
-        ground_rect2 = collider.Collider(3048, c.GROUND_HEIGHT,  635, 60)
-        ground_rect3 = collider.Collider(3819, c.GROUND_HEIGHT, 2735, 60)
-        ground_rect4 = collider.Collider(6647, c.GROUND_HEIGHT, 2300, 60)
+        # ground_rect1 = collider.Collider(0, c.GROUND_HEIGHT,    2953, 60)
+        # ground_rect2 = collider.Collider(3048, c.GROUND_HEIGHT,  635, 60)
+        # ground_rect3 = collider.Collider(3819, c.GROUND_HEIGHT, 2735, 60)
+        # ground_rect4 = collider.Collider(6647, c.GROUND_HEIGHT, 2300, 60)
+        ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT,    2953)
+        ground_rect2 = collider.Ground(3048, c.GROUND_HEIGHT,  635)
+        ground_rect3 = collider.Ground(3819, c.GROUND_HEIGHT, 2735)
+        ground_rect4 = collider.Ground(6647, c.GROUND_HEIGHT, 2300)
 
         self.ground_group = pg.sprite.Group(ground_rect1,
                                            ground_rect2,
@@ -101,39 +105,41 @@ class Level1(tools._State):
 
     def setup_steps(self):
         """Create collideable rects for all the steps"""
-        step1 = collider.Collider(5745, 495, 40, 44)
-        step2 = collider.Collider(5788, 452, 40, 44)
-        step3 = collider.Collider(5831, 409, 40, 44)
-        step4 = collider.Collider(5874, 366, 40, 176)
+        step1 = collider.Step(900, 495, 40, 44)
+        
+        step1 = collider.Step(5745, 495, 40, 44)
+        step2 = collider.Step(5788, 452, 40, 44)
+        step3 = collider.Step(5831, 409, 40, 44)
+        step4 = collider.Step(5874, 366, 40, 176)
 
 
-        step5 = collider.Collider(6001, 366, 40, 176)
-        step6 = collider.Collider(6044, 408, 40, 40)
-        step7 = collider.Collider(6087, 452, 40, 40)
-        step8 = collider.Collider(6130, 495, 40, 40)
+        step5 = collider.Step(6001, 366, 40, 176)
+        step6 = collider.Step(6044, 408, 40, 40)
+        step7 = collider.Step(6087, 452, 40, 40)
+        step8 = collider.Step(6130, 495, 40, 40)
 
-        step9 = collider.Collider(6345, 495, 40, 40)
-        step10 = collider.Collider(6388, 452, 40, 40)
-        step11 = collider.Collider(6431, 409, 40, 40)
-        step12 = collider.Collider(6474, 366, 40, 40)
-        step13 = collider.Collider(6517, 366, 40, 176)
+        step9 = collider.Step(6345, 495, 40, 40)
+        step10 = collider.Step(6388, 452, 40, 40)
+        step11 = collider.Step(6431, 409, 40, 40)
+        step12 = collider.Step(6474, 366, 40, 40)
+        step13 = collider.Step(6517, 366, 40, 176)
 
-        step14 = collider.Collider(6644, 366, 40, 176)
-        step15 = collider.Collider(6687, 408, 40, 40)
-        step16 = collider.Collider(6728, 452, 40, 40)
-        step17 = collider.Collider(6771, 495, 40, 40)
+        step14 = collider.Step(6644, 366, 40, 176)
+        step15 = collider.Step(6687, 408, 40, 40)
+        step16 = collider.Step(6728, 452, 40, 40)
+        step17 = collider.Step(6771, 495, 40, 40)
 
-        step18 = collider.Collider(7760, 495, 40, 40)
-        step19 = collider.Collider(7803, 452, 40, 40)
-        step20 = collider.Collider(7845, 409, 40, 40)
-        step21 = collider.Collider(7888, 366, 40, 40)
-        step22 = collider.Collider(7931, 323, 40, 40)
-        step23 = collider.Collider(7974, 280, 40, 40)
-        step24 = collider.Collider(8017, 237, 40, 40)
-        step25 = collider.Collider(8060, 194, 40, 40)
-        step26 = collider.Collider(8103, 194, 40, 360)
+        step18 = collider.Step(7760, 495, 40, 40)
+        step19 = collider.Step(7803, 452, 40, 40)
+        step20 = collider.Step(7845, 409, 40, 40)
+        step21 = collider.Step(7888, 366, 40, 40)
+        step22 = collider.Step(7931, 323, 40, 40)
+        step23 = collider.Step(7974, 280, 40, 40)
+        step24 = collider.Step(8017, 237, 40, 40)
+        step25 = collider.Step(8060, 194, 40, 40)
+        step26 = collider.Step(8103, 194, 40, 360)
 
-        step27 = collider.Collider(8488, 495, 40, 40)
+        step27 = collider.Step(8488, 495, 40, 40)
 
         self.step_group = pg.sprite.Group(step1,  step2,
                                           step3,  step4,
@@ -1370,10 +1376,14 @@ class Level1(tools._State):
         third = self.viewport.x + self.viewport.w//3
         mario_center = self.mario.rect.centerx
         mario_right = self.mario.rect.right
-
+        
+        half = self.viewport.x + self.viewport.w//2
         if self.mario.x_vel > 0 and mario_center >= third:
-            mult = 0.5 if mario_right < self.viewport.centerx else 1
-            new = self.viewport.x + mult * self.mario.x_vel
+            if mario_center >= half:
+                new = mario_center - self.viewport.w//2
+            elif mario_center >= third:
+                mult = 0.5 if mario_right < self.viewport.centerx else 1
+                new = self.viewport.x + mult * self.mario.x_vel
             highest = self.level_rect.w - self.viewport.w
             self.viewport.x = min(highest, new)
 
@@ -1419,7 +1429,7 @@ class Level1(tools._State):
         self.coin_group.draw(self.level)
         self.brick_group.draw(self.level)
 
-        self.pipe_group.draw(self.level)
+        # self.pipe_group.draw(self.level)
         self.step_group.draw(self.level)
 
         self.coin_box_group.draw(self.level)
@@ -1434,5 +1444,3 @@ class Level1(tools._State):
         self.overhead_info_display.draw(surface)
         for score in self.moving_score_list:
             score.draw(surface)
-
-

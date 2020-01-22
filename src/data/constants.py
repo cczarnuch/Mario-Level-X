@@ -41,7 +41,7 @@ SMALL_TURNAROUND = .35
 
 GRAVITY = 1.01
 JUMP_GRAVITY = .31
-JUMP_VEL = -10
+JUMP_VEL = -10.5
 FAST_JUMP_VEL = -12.5
 MAX_Y_VEL = 11
 
@@ -169,9 +169,3 @@ WORLD_CLEAR = 'world clear'
 TIME_WARNING = 'time warning'
 SPED_UP_NORMAL = 'sped up normal'
 MARIO_INVINCIBLE = 'mario invincible'
-
-
-
-
-
-
