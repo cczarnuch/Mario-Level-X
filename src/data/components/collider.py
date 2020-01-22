@@ -21,13 +21,10 @@ class Pipe(pg.sprite.Sprite):
     """Moveable Pipes"""
     def __init__(self, x, height):
         pg.sprite.Sprite.__init__(self)
-        #self.image = pg.Surface((83, height))
-        #self.image.fill(c.GREEN)
-        pipe_bottom = pg.image.load('./resources/graphics/pipe_bottom.png')
-        #self.image = pg.transform.scale(pipe_bottom, (83, height))
+        pipe_bottom = setup.GFX['pipe_bottom']
+
         pipe_bottom = pg.transform.scale(pipe_bottom, (83,height))
-        #todo
-        pipe_top = pg.image.load('./resources/graphics/pipe_top.png')
+        pipe_top = setup.GFX['pipe_top']
         pipe_top = pg.transform.scale(pipe_top, (83,40))
         pipe_bottom.blit(pipe_top,(0,0))
         self.image = pipe_bottom
