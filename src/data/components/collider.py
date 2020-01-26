@@ -45,18 +45,14 @@ class Ground(pg.sprite.Sprite):
 
 class Step(pg.sprite.Sprite):
     """Step blocks"""
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width = 16, height = 16):
         pg.sprite.Sprite.__init__(self)
         self.sprite_sheet = setup.GFX['tile_set']
-
-        self.image = pg.Surface((width, height)).convert()
-        rect = self.image.get_rect()
-        #self.image.fill(c.RED)
-        self.image.blit(self.sprite_sheet, (0, 0), (8, 0, 8, 8))
-        self.image = pg.transform.scale(self.image,(40, 40))
-                                        # (int(rect.width*c.BRICK_SIZE_MULTIPLIER),
-                                        # int(rect.height*c.BRICK_SIZE_MULTIPLIER)))
-        self.rect = self.image.get_rect()
+        image = pg.Surface((width, height)).convert()
+        image.blit(self.sprite_sheet, (0, 0), (0, 16, 16, 16))
+        image = pg.transform.scale(image,(int(image.get_width()*c.BRICK_SIZE_MULTIPLIER),int(image.get_height()*c.BRICK_SIZE_MULTIPLIER)))
+        self.image = image
+        self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
         self.state = None
