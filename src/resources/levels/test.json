@@ -1,0 +1,65 @@
+{
+    "info": {
+        "name": "test",
+        "author": "edwardo"
+    },
+    "data": {
+        "enemies": [
+            {
+                "name": "goomba",
+                "x": 510
+            },
+            {
+                "name": "goomba",
+                "x": 570
+            },
+            {
+                "name": "koopa",
+                "x": 1740
+            }
+        ],
+        "pipes": [
+            {
+                "x": 1202,
+                "height": 82
+            },
+            {
+                "x": 1631,
+                "height": 140
+            }
+        ],
+        "steps": [
+            {
+                "x": 500,
+                "y": 350
+            },
+            {
+                "x": 600,
+                "y": 350
+            }
+        ],
+        "bricks": [
+            {
+                "x": 500,
+                "y": 350
+            },
+            {
+                "x": 600,
+                "y": 355,
+                "contents": "star"
+            }
+        ],
+        "coin_boxes": [
+            {
+                "x": 685,
+                "y": 365,
+                "contents": "coin"
+            },
+            {
+                "x": 901,
+                "y": 365,
+                "contents": "mushroom"
+            }
+        ]
+    }
+}
