@@ -63,6 +63,12 @@ WALKING_TO_CASTLE = 'walking to castle'
 END_OF_LEVEL_FALL = 'end of level fall'
 
 
+
+#ENEMY Types
+GOOMBA = 'goomba'
+KOOPA = 'koopa'
+
+
 #GOOMBA Stuff
 
 LEFT = 'left'
@@ -169,3 +175,4 @@ WORLD_CLEAR = 'world clear'
 TIME_WARNING = 'time warning'
 SPED_UP_NORMAL = 'sped up normal'
 MARIO_INVINCIBLE = 'mario invincible'
+

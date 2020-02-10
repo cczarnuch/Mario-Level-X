@@ -39,6 +39,9 @@ class Level1(tools._State):
         self.overhead_info_display = info.OverheadInfo(self.game_info, c.LEVEL)
         self.sound_manager = game_sound.Sound(self.overhead_info_display)
 
+
+        self.initiate_groups()
+
         self.setup_background()
         self.setup_ground()
         self.setup_pipes()
@@ -46,10 +49,19 @@ class Level1(tools._State):
         self.setup_bricks()
         self.setup_coin_boxes()
         self.setup_flag_pole()
-        self.setup_enemies()
         self.setup_mario()
         self.setup_checkpoints()
         self.setup_spritegroups()
+
+
+    def initiate_groups(self):
+        #construct dynamic groups only. These groups will be populated based on input data. 
+        self.ground_group = pg.sprite.Group()
+        self.pipe_group = pg.sprite.Group()
+        self.step_group = pg.sprite.Group()
+        self.brick_group = pg.sprite.Group()
+        self.coin_box_group = pg.sprite.Group()
+        self.check_point_group = pg.sprite.Group()
 
 
     def setup_background(self):
@@ -239,20 +251,19 @@ class Level1(tools._State):
 
     def setup_flag_pole(self):
         """Creates the flag pole at the end of the level"""
-        self.flag = flagpole.Flag(8505, 100)
-
-        pole0 = flagpole.Pole(8505, 97)
-        pole1 = flagpole.Pole(8505, 137)
-        pole2 = flagpole.Pole(8505, 177)
-        pole3 = flagpole.Pole(8505, 217)
-        pole4 = flagpole.Pole(8505, 257)
-        pole5 = flagpole.Pole(8505, 297)
-        pole6 = flagpole.Pole(8505, 337)
-        pole7 = flagpole.Pole(8505, 377)
-        pole8 = flagpole.Pole(8505, 417)
-        pole9 = flagpole.Pole(8505, 450)
-
-        finial = flagpole.Finial(8507, 97)
+        x = 8505
+        self.flag = flagpole.Flag(x, 100)
+        pole0 = flagpole.Pole(x, 97)
+        pole1 = flagpole.Pole(x, 137)
+        pole2 = flagpole.Pole(x, 177)
+        pole3 = flagpole.Pole(x, 217)
+        pole4 = flagpole.Pole(x, 257)
+        pole5 = flagpole.Pole(x, 297)
+        pole6 = flagpole.Pole(x, 337)
+        pole7 = flagpole.Pole(x, 377)
+        pole8 = flagpole.Pole(x, 417)
+        pole9 = flagpole.Pole(x, 450)
+        finial = flagpole.Finial(x, 97)
 
         self.flag_pole_group = pg.sprite.Group(self.flag,
                                                finial,
@@ -267,80 +278,82 @@ class Level1(tools._State):
                                                pole8,
                                                pole9)
 
-
-    def setup_enemies(self):
-        """Creates all the enemies and stores them in a list of lists."""
-        goomba0 = enemies.Goomba()
-        goomba1 = enemies.Goomba()
-        goomba2 = enemies.Goomba()
-        goomba3 = enemies.Goomba()
-        goomba4 = enemies.Goomba(193)
-        goomba5 = enemies.Goomba(193)
-        goomba6 = enemies.Goomba()
-        goomba7 = enemies.Goomba()
-        goomba8 = enemies.Goomba()
-        goomba9 = enemies.Goomba()
-        goomba10 = enemies.Goomba()
-        goomba11 = enemies.Goomba()
-        goomba12 = enemies.Goomba()
-        goomba13 = enemies.Goomba()
-        goomba14 = enemies.Goomba()
-        goomba15 = enemies.Goomba()
-
-        koopa0 = enemies.Koopa()
-
-        enemy_group1 = pg.sprite.Group(goomba0)
-        enemy_group2 = pg.sprite.Group(goomba1)
-        enemy_group3 = pg.sprite.Group(goomba2, goomba3)
-        enemy_group4 = pg.sprite.Group(goomba4, goomba5)
-        enemy_group5 = pg.sprite.Group(goomba6, goomba7)
-        enemy_group6 = pg.sprite.Group(koopa0)
-        enemy_group7 = pg.sprite.Group(goomba8, goomba9)
-        enemy_group8 = pg.sprite.Group(goomba10, goomba11)
-        enemy_group9 = pg.sprite.Group(goomba12, goomba13)
-        enemy_group10 = pg.sprite.Group(goomba14, goomba15)
-
-        self.enemy_group_list = [enemy_group1,
-                                 enemy_group2,
-                                 enemy_group3,
-                                 enemy_group4,
-                                 enemy_group5,
-                                 enemy_group6,
-                                 enemy_group7,
-                                 enemy_group8,
-                                 enemy_group9,
-                                 enemy_group10]
-
-
     def setup_mario(self):
         """Places Mario at the beginning of the level"""
         self.mario = mario.Mario()
         self.mario.rect.x = self.viewport.x + 110
         self.mario.rect.bottom = c.GROUND_HEIGHT
 
-
     def setup_checkpoints(self):
         """Creates invisible checkpoints that when collided will trigger
-        the creation of enemies from the self.enemy_group_list"""
-        check1 = checkpoint.Checkpoint(510, "1")
-        check2 = checkpoint.Checkpoint(1400, '2')
-        check3 = checkpoint.Checkpoint(1740, '3')
-        check4 = checkpoint.Checkpoint(3080, '4')
-        check5 = checkpoint.Checkpoint(3750, '5')
-        check6 = checkpoint.Checkpoint(4150, '6')
-        check7 = checkpoint.Checkpoint(4470, '7')
-        check8 = checkpoint.Checkpoint(4950, '8')
-        check9 = checkpoint.Checkpoint(5100, '9')
-        check10 = checkpoint.Checkpoint(6800, '10')
-        check11 = checkpoint.Checkpoint(8504, '11', 5, 6)
-        check12 = checkpoint.Checkpoint(8775, '12')
-        check13 = checkpoint.Checkpoint(2740, 'secret_mushroom', 360, 40, 12)
+        the creation of enemies"""
+
+        #enemy x should be at least 60 apart, otherwise will collide on spawn 
+        check1 = checkpoint.Checkpoint(510, c.GOOMBA) 
+        check2 = checkpoint.Checkpoint(570, c.GOOMBA) 
+        check3 = checkpoint.Checkpoint(1740, c.KOOPA) 
+        #check4 = checkpoint.Checkpoint(2740, 'secret_mushroom', 360, 40, 12) todo
+
+
+        flagpole = checkpoint.Checkpoint(8504, c.FLAGPOLE, 5, 6)
+
+
+
+        #constants
+        castle = checkpoint.Checkpoint(8775, c.IN_CASTLE)
 
         self.check_point_group = pg.sprite.Group(check1, check2, check3,
-                                                 check4, check5, check6,
-                                                 check7, check8, check9,
-                                                 check10, check11, check12,
-                                                 check13)
+                                                 flagpole, castle)
+
+
+    def check_points_check(self):
+        """Detect if checkpoint collision occurs, delete checkpoint,
+        add enemies to self.enemy_group"""
+        checkpoint = pg.sprite.spritecollideany(self.mario,
+                                                 self.check_point_group)
+        if checkpoint:
+            #remove checkpoint sprite from group
+            checkpoint.kill()
+
+            if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
+                if checkpoint.name == c.GOOMBA:
+                     enemy = enemies.Goomba() 
+                else: 
+                    enemy = enemies.Koopa()
+                
+                enemy.rect.x = self.viewport.right
+                self.enemy_group.add(enemy)
+
+            elif checkpoint.name == c.FLAGPOLE:
+                self.mario.state = c.FLAGPOLE
+                self.mario.invincible = False
+                self.mario.flag_pole_right = checkpoint.rect.right
+                if self.mario.rect.bottom < self.flag.rect.y:
+                    self.mario.rect.bottom = self.flag.rect.y
+                self.flag.state = c.SLIDE_DOWN
+                self.create_flag_points()
+
+            elif checkpoint.name == c.IN_CASTLE:
+                self.state = c.IN_CASTLE
+                self.mario.kill()
+                self.mario.state == c.STAND
+                self.mario.in_castle = True
+                self.overhead_info_display.state = c.FAST_COUNT_DOWN
+
+
+            elif checkpoint.name == 'secret_mushroom' and self.mario.y_vel < 0:
+                mushroom_box = coin_box.Coin_box(checkpoint.rect.x,
+                                        checkpoint.rect.bottom - 40,
+                                        '1up_mushroom',
+                                        self.powerup_group)
+                mushroom_box.start_bump(self.moving_score_list)
+                self.coin_box_group.add(mushroom_box)
+
+                self.mario.y_vel = 7
+                self.mario.rect.y = mushroom_box.rect.bottom
+                self.mario.state = c.FALL
+
+            self.mario_and_enemy_group.add(self.enemy_group)
 
 
     def setup_spritegroups(self):
@@ -430,52 +443,6 @@ class Level1(tools._State):
         self.check_for_mario_death()
         self.update_viewport()
         self.overhead_info_display.update(self.game_info, self.mario)
-
-
-    def check_points_check(self):
-        """Detect if checkpoint collision occurs, delete checkpoint,
-        add enemies to self.enemy_group"""
-        checkpoint = pg.sprite.spritecollideany(self.mario,
-                                                 self.check_point_group)
-        if checkpoint:
-            checkpoint.kill()
-
-            for i in range(1,11):
-                if checkpoint.name == str(i):
-                    for index, enemy in enumerate(self.enemy_group_list[i -1]):
-                        enemy.rect.x = self.viewport.right + (index * 60)
-                    self.enemy_group.add(self.enemy_group_list[i-1])
-
-            if checkpoint.name == '11':
-                self.mario.state = c.FLAGPOLE
-                self.mario.invincible = False
-                self.mario.flag_pole_right = checkpoint.rect.right
-                if self.mario.rect.bottom < self.flag.rect.y:
-                    self.mario.rect.bottom = self.flag.rect.y
-                self.flag.state = c.SLIDE_DOWN
-                self.create_flag_points()
-
-            elif checkpoint.name == '12':
-                self.state = c.IN_CASTLE
-                self.mario.kill()
-                self.mario.state == c.STAND
-                self.mario.in_castle = True
-                self.overhead_info_display.state = c.FAST_COUNT_DOWN
-
-
-            elif checkpoint.name == 'secret_mushroom' and self.mario.y_vel < 0:
-                mushroom_box = coin_box.Coin_box(checkpoint.rect.x,
-                                        checkpoint.rect.bottom - 40,
-                                        '1up_mushroom',
-                                        self.powerup_group)
-                mushroom_box.start_bump(self.moving_score_list)
-                self.coin_box_group.add(mushroom_box)
-
-                self.mario.y_vel = 7
-                self.mario.rect.y = mushroom_box.rect.bottom
-                self.mario.state = c.FALL
-
-            self.mario_and_enemy_group.add(self.enemy_group)
 
 
     def create_flag_points(self):
