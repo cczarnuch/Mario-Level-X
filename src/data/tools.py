@@ -2,6 +2,7 @@ __author__ = 'justinarmstrong'
 
 import os
 import pygame as pg
+import json
 
 keybinding = {
     'action':pg.K_s,
@@ -144,12 +145,7 @@ def load_all_sfx(directory, accept=('.wav','.mpe','.ogg','.mdi')):
     return effects
 
 
-
-
-
-
-
-
-
-
-
+#parse json
+def load_level_json(filename):
+    with open(os.path.join('resources', 'levels', filename), 'r') as f: 
+        return json.loads(f.read())

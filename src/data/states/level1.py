@@ -39,9 +39,12 @@ class Level1(tools._State):
         self.overhead_info_display = info.OverheadInfo(self.game_info, c.LEVEL)
         self.sound_manager = game_sound.Sound(self.overhead_info_display)
 
-
-        self.initiate_groups()
-
+        # self.initiate_groups()
+        
+        level = tools.load_level_json('test.json')
+        self.level_info = level['info']
+        self.level_data = level['data']
+        
         self.setup_background()
         self.setup_ground()
         self.setup_pipes()
@@ -54,14 +57,14 @@ class Level1(tools._State):
         self.setup_spritegroups()
 
 
-    def initiate_groups(self):
-        #construct dynamic groups only. These groups will be populated based on input data. 
-        self.ground_group = pg.sprite.Group()
-        self.pipe_group = pg.sprite.Group()
-        self.step_group = pg.sprite.Group()
-        self.brick_group = pg.sprite.Group()
-        self.coin_box_group = pg.sprite.Group()
-        self.check_point_group = pg.sprite.Group()
+    # def initiate_groups(self):
+    #     #construct dynamic groups only. These groups will be populated based on input data. 
+    #     self.ground_group = pg.sprite.Group()
+    #     self.pipe_group = pg.sprite.Group()
+    #     self.step_group = pg.sprite.Group()
+    #     self.brick_group = pg.sprite.Group()
+    #     self.coin_box_group = pg.sprite.Group()
+    #     self.check_point_group = pg.sprite.Group()
 
 
     def setup_background(self):
@@ -102,70 +105,27 @@ class Level1(tools._State):
     def setup_pipes(self):
         """Create collideable rects for all the pipes"""
 
-        pipe1 = collider.Pipe(1202, 82)
-        pipe2 = collider.Pipe(1631, 140)
-        pipe3 = collider.Pipe(1973, 170)
-        pipe4 = collider.Pipe(2445, 170)
-        pipe5 = collider.Pipe(6989, 82)
-        pipe6 = collider.Pipe(7675, 82)
+        # pipe1 = collider.Pipe(1202, 82)
+        # pipe2 = collider.Pipe(1631, 140)
+        # pipe3 = collider.Pipe(1973, 170)
+        # pipe4 = collider.Pipe(2445, 170)
+        # pipe5 = collider.Pipe(6989, 82)
+        # pipe6 = collider.Pipe(7675, 82)
 
-        self.pipe_group = pg.sprite.Group(pipe1, pipe2,
-                                          pipe3, pipe4,
-                                          pipe5, pipe6)
+        # self.pipe_group = pg.sprite.Group(pipe1, pipe2,
+        #                                   pipe3, pipe4,
+        #                                   pipe5, pipe6)
+
+        self.pipe_group = pg.sprite.Group()
+        for pipe in self.level_data['pipes']:
+            self.pipe_group.add(collider.Pipe(pipe['x'], pipe['height']))
 
 
     def setup_steps(self):
         """Create collideable rects for all the steps"""
-        step1 = collider.Step(500, 350)
-        
-        #step1 = collider.Step(5745, 495)
-        step2 = collider.Step(5788, 452)
-        step3 = collider.Step(5831, 409)
-        step4 = collider.Step(5874, 366)
-
-
-        step5 = collider.Step(6001, 366)
-        step6 = collider.Step(6044, 408)
-        step7 = collider.Step(6087, 452)
-        step8 = collider.Step(6130, 495)
-
-        step9 = collider.Step(6345, 495)
-        step10 = collider.Step(6388, 452 )
-        step11 = collider.Step(6431, 409 )
-        step12 = collider.Step(6474, 366 )
-        step13 = collider.Step(6517, 366 )
-
-        step14 = collider.Step(6644, 366)
-        step15 = collider.Step(6687, 408)
-        step16 = collider.Step(6728, 452)
-        step17 = collider.Step(6771, 495)
-
-        step18 = collider.Step(7760, 495)
-        step19 = collider.Step(7803, 452)
-        step20 = collider.Step(7845, 409)
-        step21 = collider.Step(7888, 366)
-        step22 = collider.Step(7931, 323)
-        step23 = collider.Step(7974, 280)
-        step24 = collider.Step(8017, 237)
-        step25 = collider.Step(8060, 194)
-        step26 = collider.Step(8103, 194)
-
-        step27 = collider.Step(8488, 495)
-
-        self.step_group = pg.sprite.Group(step1,  step2,
-                                          step3,  step4,
-                                          step5,  step6,
-                                          step7,  step8,
-                                          step9,  step10,
-                                          step11, step12,
-                                          step13, step14,
-                                          step15, step16,
-                                          step17, step18,
-                                          step19, step20,
-                                          step21, step22,
-                                          step23, step24,
-                                          step25, step26,
-                                          step27)
+        self.step_group = pg.sprite.Group()
+        for step in self.level_data['steps']:
+            self.step_group.add(collider.Step(step['x'], step['y']))
 
 
     def setup_bricks(self):
@@ -175,79 +135,35 @@ class Level1(tools._State):
         self.powerup_group = pg.sprite.Group()
         self.brick_pieces_group = pg.sprite.Group()
 
-        brick1  = bricks.Brick(500,  365)
-        #brick1  = bricks.Brick(858,  365)
-        brick2  = bricks.Brick(944,  365)
-        brick3  = bricks.Brick(1030, 365)
-        brick4  = bricks.Brick(3299, 365)
-        brick5  = bricks.Brick(3385, 365)
-        brick6  = bricks.Brick(3430, 193)
-        brick7  = bricks.Brick(3473, 193)
-        brick8  = bricks.Brick(3516, 193)
-        brick9  = bricks.Brick(3559, 193)
-        brick10 = bricks.Brick(3602, 193)
-        brick11 = bricks.Brick(3645, 193)
-        brick12 = bricks.Brick(3688, 193)
-        brick13 = bricks.Brick(3731, 193)
-        brick14 = bricks.Brick(3901, 193)
-        brick15 = bricks.Brick(3944, 193)
-        brick16 = bricks.Brick(3987, 193)
-        brick17 = bricks.Brick(4030, 365, c.SIXCOINS, self.coin_group)
-        brick18 = bricks.Brick(4287, 365)
-        brick19 = bricks.Brick(4330, 365, c.STAR, self.powerup_group)
-        brick20 = bricks.Brick(5058, 365)
-        brick21 = bricks.Brick(5187, 193)
-        brick22 = bricks.Brick(5230, 193)
-        brick23 = bricks.Brick(5273, 193)
-        brick24 = bricks.Brick(5488, 193)
-        brick25 = bricks.Brick(5574, 193)
-        brick26 = bricks.Brick(5617, 193)
-        brick27 = bricks.Brick(5531, 365)
-        brick28 = bricks.Brick(5574, 365)
-        brick29 = bricks.Brick(7202, 365)
-        brick30 = bricks.Brick(7245, 365)
-        brick31 = bricks.Brick(7331, 365)
-
-        self.brick_group = pg.sprite.Group(brick1,  brick2,
-                                           brick3,  brick4,
-                                           brick5,  brick6,
-                                           brick7,  brick8,
-                                           brick9,  brick10,
-                                           brick11, brick12,
-                                           brick13, brick14,
-                                           brick15, brick16,
-                                           brick17, brick18,
-                                           brick19, brick20,
-                                           brick21, brick22,
-                                           brick23, brick24,
-                                           brick25, brick26,
-                                           brick27, brick28,
-                                           brick29, brick30,
-                                           brick31)
-
+        self.brick_group = pg.sprite.Group()
+        for data in self.level_data['bricks']:
+            x, y = data['x'], data['y']
+            if 'contents' in data:
+                contents = data['contents']
+                group = None
+                if contents == c.SIXCOINS:
+                    group = self.coin_group
+                elif contents == c.STAR:
+                    group = self.powerup_group
+                brick = bricks.Brick(x, y, contents, group)
+            else: 
+                brick = bricks.Brick(x, y)            
+            self.brick_group.add(brick)
 
     def setup_coin_boxes(self):
         """Creates all the coin boxes and puts them in a sprite group"""
-        coin_box1  = coin_box.Coin_box(685, 365, c.COIN, self.coin_group)
-        coin_box2  = coin_box.Coin_box(901, 365, c.MUSHROOM, self.powerup_group)
-        coin_box3  = coin_box.Coin_box(987, 365, c.COIN, self.coin_group)
-        coin_box4  = coin_box.Coin_box(943, 193, c.COIN, self.coin_group)
-        coin_box5  = coin_box.Coin_box(3342, 365, c.MUSHROOM, self.powerup_group)
-        coin_box6  = coin_box.Coin_box(4030, 193, c.COIN, self.coin_group)
-        coin_box7  = coin_box.Coin_box(4544, 365, c.COIN, self.coin_group)
-        coin_box8  = coin_box.Coin_box(4672, 365, c.COIN, self.coin_group)
-        coin_box9  = coin_box.Coin_box(4672, 193, c.MUSHROOM, self.powerup_group)
-        coin_box10 = coin_box.Coin_box(4800, 365, c.COIN, self.coin_group)
-        coin_box11 = coin_box.Coin_box(5531, 193, c.COIN, self.coin_group)
-        coin_box12 = coin_box.Coin_box(7288, 365, c.COIN, self.coin_group)
-
-        self.coin_box_group = pg.sprite.Group(coin_box1,  coin_box2,
-                                              coin_box3,  coin_box4,
-                                              coin_box5,  coin_box6,
-                                              coin_box7,  coin_box8,
-                                              coin_box9,  coin_box10,
-                                              coin_box11, coin_box12)
-
+        self.coin_box_group = pg.sprite.Group()
+        for data in self.level_data['coin_boxes']:
+            x, y = data['x'], data['y']
+            contents = data['contents']
+            group = None
+            if contents == c.COIN:
+                group = self.coin_group
+            else:
+                #contents = c.MUSHROOM
+                group = self.powerup_group
+            cb = coin_box.Coin_box(x, y, contents, group)
+            self.coin_box_group.add(cb)
 
     def setup_flag_pole(self):
         """Creates the flag pole at the end of the level"""
@@ -287,23 +203,21 @@ class Level1(tools._State):
     def setup_checkpoints(self):
         """Creates invisible checkpoints that when collided will trigger
         the creation of enemies"""
-
         #enemy x should be at least 60 apart, otherwise will collide on spawn 
-        check1 = checkpoint.Checkpoint(510, c.GOOMBA) 
-        check2 = checkpoint.Checkpoint(570, c.GOOMBA) 
-        check3 = checkpoint.Checkpoint(1740, c.KOOPA) 
+        # check1 = checkpoint.Checkpoint(510, c.GOOMBA) 
+        # check3 = checkpoint.Checkpoint(1740, c.KOOPA) 
         #check4 = checkpoint.Checkpoint(2740, 'secret_mushroom', 360, 40, 12) todo
-
-
+        
+        #flag and castle constant
         flagpole = checkpoint.Checkpoint(8504, c.FLAGPOLE, 5, 6)
-
-
-
-        #constants
         castle = checkpoint.Checkpoint(8775, c.IN_CASTLE)
+        self.check_point_group = pg.sprite.Group(flagpole, castle)
 
-        self.check_point_group = pg.sprite.Group(check1, check2, check3,
-                                                 flagpole, castle)
+        #load enemies
+        for data in self.level_data['enemies']:
+            x, name = data['x'], data['name']
+            enemy = checkpoint.Checkpoint(x,name)
+            self.check_point_group.add(enemy)
 
 
     def check_points_check(self):
