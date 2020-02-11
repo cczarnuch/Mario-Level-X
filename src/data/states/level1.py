@@ -41,7 +41,7 @@ class Level1(tools._State):
 
         # self.initiate_groups()
         
-        level = tools.load_level_json('test.json')
+        level = tools.load_level_json('test2.json')
         self.level_info = level['info']
         self.level_data = level['data']
         
@@ -55,16 +55,6 @@ class Level1(tools._State):
         self.setup_mario()
         self.setup_checkpoints()
         self.setup_spritegroups()
-
-
-    # def initiate_groups(self):
-    #     #construct dynamic groups only. These groups will be populated based on input data. 
-    #     self.ground_group = pg.sprite.Group()
-    #     self.pipe_group = pg.sprite.Group()
-    #     self.step_group = pg.sprite.Group()
-    #     self.brick_group = pg.sprite.Group()
-    #     self.coin_box_group = pg.sprite.Group()
-    #     self.check_point_group = pg.sprite.Group()
 
 
     def setup_background(self):
@@ -91,6 +81,7 @@ class Level1(tools._State):
         # ground_rect2 = collider.Collider(3048, c.GROUND_HEIGHT,  635, 60)
         # ground_rect3 = collider.Collider(3819, c.GROUND_HEIGHT, 2735, 60)
         # ground_rect4 = collider.Collider(6647, c.GROUND_HEIGHT, 2300, 60)
+
         ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT,    2953)
         ground_rect2 = collider.Ground(3048, c.GROUND_HEIGHT,  635)
         ground_rect3 = collider.Ground(3819, c.GROUND_HEIGHT, 2735)
@@ -100,6 +91,11 @@ class Level1(tools._State):
                                            ground_rect2,
                                            ground_rect3,
                                            ground_rect4)
+
+        #Still needs testing to see if this block below works
+        #self.ground_group = pg.sprite.Group()
+        #for group in self.level_data['grounds']:
+#            self.ground_group.add(collider.Ground(ground['xStart'], 538, ground['xEnd']))
 
 
     def setup_pipes(self):
