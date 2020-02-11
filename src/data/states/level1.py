@@ -41,7 +41,7 @@ class Level1(tools._State):
 
         # self.initiate_groups()
         
-        level = tools.load_level_json('test.json')
+        level = tools.load_level_json('test2.json')
         self.level_info = level['info']
         self.level_data = level['data']
         
