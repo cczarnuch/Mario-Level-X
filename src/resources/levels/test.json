@@ -28,6 +28,24 @@
                 "height": 140
             }
         ],
+        "grounds": [
+            {
+                "xStart": 0,
+                "xEnd": 2953,
+            },
+            {
+                "xStart": 3048,
+                "xEnd": 635,
+            },
+            {
+                "xStart": 3819,
+                "xEnd": 2735,
+            },
+            {
+                "xStart": 6647,
+                "xEnd": 2300,
+            }
+        ],
         "steps": [
             {
                 "x": 500,
