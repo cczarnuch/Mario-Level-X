@@ -1,0 +1,13 @@
+{
+    "info": {
+        "name": "test",
+        "author": "edwardo"
+    },
+    "data": {
+        "enemies": [],
+        "pipes": [],
+        "steps": [],
+        "bricks": [],
+        "coin_boxes": []
+    }
+}
