@@ -60,10 +60,13 @@
     <allocations>
         <allocation task-id="28" resource-id="0" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="41" resource-id="0" function="Default:0" responsible="true" load="30.0"/>
+        <allocation task-id="10" resource-id="0" function="Default:0" responsible="true" load="33.0"/>
         <allocation task-id="30" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="39" resource-id="1" function="Default:0" responsible="true" load="30.0"/>
+        <allocation task-id="10" resource-id="1" function="Default:0" responsible="true" load="33.0"/>
         <allocation task-id="31" resource-id="2" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="43" resource-id="2" function="Default:0" responsible="true" load="30.0"/>
+        <allocation task-id="10" resource-id="2" function="Default:0" responsible="true" load="33.0"/>
     </allocations>
     <vacations/>
     <previous/>
