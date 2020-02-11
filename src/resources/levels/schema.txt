@@ -1,0 +1,29 @@
+schema for game items
+
+
+//lists
+enemies = [enemy..]
+pipes = [pip..]
+etc...
+
+
+
+//single objects
+enemy:
+    name string required (goomba/koopa)
+    x int required
+
+pipe:
+    {x, height} int required
+
+step:
+    {x,y} int required
+
+brick:
+    {x,y} int required
+    contents string optional (star / 6coins)
+
+coin_box:
+    {x,y} int required
+    contents string required (coin / mushroom)
+

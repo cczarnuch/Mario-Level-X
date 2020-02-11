@@ -1,0 +1,18 @@
+{
+    "info": {
+        "name": "test",
+        "author": "edwardo"
+    },
+    "data": {
+        "enemies": [
+            {
+                "name": "koopa",
+                "x": 510
+            }
+        ],
+        "pipes": [],
+        "steps": [],
+        "bricks": [],
+        "coin_boxes": []
+    }
+}
