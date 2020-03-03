@@ -12,8 +12,8 @@ class Flag(pg.sprite.Sprite):
         self.setup_images()
         self.image = self.frames[0]
         self.rect = self.image.get_rect()
-        self.rect.right = x
-        self.rect.y = y
+        self.rect.right = x * 43 + 22
+        self.rect.y = y * 43 - 22
         self.state = c.TOP_OF_POLE
 
 
@@ -70,8 +70,8 @@ class Pole(pg.sprite.Sprite):
         self.setup_frames()
         self.image = self.frames[0]
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x = x * 43 + 22
+        self.rect.y = y * 43 - 22
 
 
     def setup_frames(self):
@@ -108,8 +108,8 @@ class Finial(pg.sprite.Sprite):
         self.setup_frames()
         self.image = self.frames[0]
         self.rect = self.image.get_rect()
-        self.rect.centerx = x
-        self.rect.bottom = y
+        self.rect.centerx = x * 43 + 22
+        self.rect.bottom = y * 43 - 22
 
 
     def setup_frames(self):
@@ -135,6 +135,3 @@ class Finial(pg.sprite.Sprite):
 
     def update(self, *args):
         pass
-
-
-
