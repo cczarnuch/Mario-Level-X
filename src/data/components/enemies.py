@@ -194,22 +194,3 @@ class Koopa(Enemy):
             self.x_vel = 10
         elif self.direction == c.LEFT:
             self.x_vel = -10
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

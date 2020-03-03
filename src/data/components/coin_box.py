@@ -18,13 +18,13 @@ class Coin_box(pg.sprite.Sprite):
         self.frame_index = 0
         self.image = self.frames[self.frame_index]
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x = x * 43
+        self.rect.y = y * 43 - 22
         self.mask = pg.mask.from_surface(self.image)
         self.animation_timer = 0
         self.first_half = True   # First half of animation cycle
         self.state = c.RESTING
-        self.rest_height = y
+        self.rest_height = self.rect.y
         self.gravity = 1.2
         self.y_vel = 0
         self.contents = contents
@@ -137,14 +137,3 @@ class Coin_box(pg.sprite.Sprite):
     def opened(self):
         """Placeholder for OPENED state"""
         pass
-
-
-
-
-
-
-
-
-
-
-

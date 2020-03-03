@@ -41,7 +41,7 @@ class Level1(tools._State):
 
         # self.initiate_groups()
         
-        level = tools.load_level_json('test2.json')
+        level = tools.load_level_json('level1.json')
         self.level_info = level['info']
         self.level_data = level['data']
         
@@ -82,10 +82,10 @@ class Level1(tools._State):
         # ground_rect3 = collider.Collider(3819, c.GROUND_HEIGHT, 2735, 60)
         # ground_rect4 = collider.Collider(6647, c.GROUND_HEIGHT, 2300, 60)
 
-        ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT,    2953)
-        ground_rect2 = collider.Ground(3048, c.GROUND_HEIGHT,  635)
-        ground_rect3 = collider.Ground(3819, c.GROUND_HEIGHT, 2735)
-        ground_rect4 = collider.Ground(6647, c.GROUND_HEIGHT, 2300)
+        ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT,   69)
+        ground_rect2 = collider.Ground(71, c.GROUND_HEIGHT,  15)
+        ground_rect3 = collider.Ground(89, c.GROUND_HEIGHT,  64)
+        ground_rect4 = collider.Ground(155, c.GROUND_HEIGHT, 53)
 
         self.ground_group = pg.sprite.Group(ground_rect1,
                                            ground_rect2,
@@ -163,19 +163,19 @@ class Level1(tools._State):
 
     def setup_flag_pole(self):
         """Creates the flag pole at the end of the level"""
-        x = 8505
-        self.flag = flagpole.Flag(x, 100)
-        pole0 = flagpole.Pole(x, 97)
-        pole1 = flagpole.Pole(x, 137)
-        pole2 = flagpole.Pole(x, 177)
-        pole3 = flagpole.Pole(x, 217)
-        pole4 = flagpole.Pole(x, 257)
-        pole5 = flagpole.Pole(x, 297)
-        pole6 = flagpole.Pole(x, 337)
-        pole7 = flagpole.Pole(x, 377)
-        pole8 = flagpole.Pole(x, 417)
-        pole9 = flagpole.Pole(x, 450)
-        finial = flagpole.Finial(x, 97)
+        x = 198
+        self.flag = flagpole.Flag(x, 2)
+        pole0 = flagpole.Pole(x, 2)
+        pole1 = flagpole.Pole(x, 3)
+        pole2 = flagpole.Pole(x, 4)
+        pole3 = flagpole.Pole(x, 5)
+        pole4 = flagpole.Pole(x, 6)
+        pole5 = flagpole.Pole(x, 7)
+        pole6 = flagpole.Pole(x, 8)
+        pole7 = flagpole.Pole(x, 9)
+        pole8 = flagpole.Pole(x, 10)
+        pole9 = flagpole.Pole(x, 11)
+        finial = flagpole.Finial(x, 2)
 
         self.flag_pole_group = pg.sprite.Group(self.flag,
                                                finial,
@@ -205,14 +205,14 @@ class Level1(tools._State):
         #check4 = checkpoint.Checkpoint(2740, 'secret_mushroom', 360, 40, 12) todo
         
         #flag and castle constant
-        flagpole = checkpoint.Checkpoint(8504, c.FLAGPOLE, 5, 6)
-        castle = checkpoint.Checkpoint(8775, c.IN_CASTLE)
+        flagpole = checkpoint.Checkpoint(198, c.FLAGPOLE, 0, 6)
+        castle = checkpoint.Checkpoint(204, c.IN_CASTLE)
         self.check_point_group = pg.sprite.Group(flagpole, castle)
 
         #load enemies
         for data in self.level_data['enemies']:
             x, name = data['x'], data['name']
-            enemy = checkpoint.Checkpoint(x,name)
+            enemy = checkpoint.Checkpoint(x-9,name)
             self.check_point_group.add(enemy)
 
 
@@ -1254,10 +1254,10 @@ class Level1(tools._State):
         mario_center = self.mario.rect.centerx
         mario_right = self.mario.rect.right
         
-        half = self.viewport.x + self.viewport.w//2
+        half = self.viewport.x + self.viewport.w*2//5
         if self.mario.x_vel > 0 and mario_center >= third:
             if mario_center >= half:
-                new = mario_center - self.viewport.w//2
+                new = mario_center - self.viewport.w*2//5
             elif mario_center >= third:
                 mult = 0.5 if mario_right < self.viewport.centerx else 1
                 new = self.viewport.x + mult * self.mario.x_vel

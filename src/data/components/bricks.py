@@ -19,11 +19,11 @@ class Brick(pg.sprite.Sprite):
         self.setup_frames()
         self.image = self.frames[self.frame_index]
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x = x * 43
+        self.rect.y = y * 43 - 22
         self.mask = pg.mask.from_surface(self.image)
         self.bumped_up = False
-        self.rest_height = y
+        self.rest_height = self.rect.y
         self.state = c.RESTING
         self.y_vel = 0
         self.gravity = 1.2
@@ -183,15 +183,3 @@ class BrickPiece(pg.sprite.Sprite):
         """Remove from sprite groups if off screen"""
         if self.rect.y > c.SCREEN_HEIGHT:
             self.kill()
-
-
-
-
-
-
-
-
-
-
-
-
