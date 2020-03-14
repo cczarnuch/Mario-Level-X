@@ -1,0 +1,389 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{hhline}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+\renewcommand\baselinestretch{1.0}
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\usepackage{color}
+
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{SS}{#1}}
+
+\title{SE 3XA3: Module Interface Specification\\BlockBuilder}
+
+\author{Group 210, Group 210
+		\\ Edward Liu, liuz150
+		\\ Connor Czarnuch, czarnucc
+		\\ Ahmad Gharib, ghariba
+}
+\begin {document}
+ 
+\maketitle
+
+\noindent This document shows the complete specification for additional/modified modules used in Mario Level X. Many modules used rely heavily on pygame, specifically the pygame.sprite module.
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+March 13, 2020 & All members & Rev0\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\section* {Pipe Module}
+
+\subsection*{Module}
+
+Pipe
+
+\subsection* {Uses}
+
+pygame.sprite.Sprite
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+None
+
+\subsubsection* {Exported Types}
+
+Pipe
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Pipe &$\mathbb{Z}, \mathbb{Z}$ & Pipe & invalid\_coordinates\\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+$x: \mathbb{Z}$\\
+Represents number of pixel to the right of the map.\\ 
+\\
+$height: \mathbb{Z}$\\
+Height of the pipe\\
+
+\subsubsection* {Environment Variables}
+
+None
+
+\subsubsection* {State Invariant}
+$x > 0$\\
+$height > 0$\\ 
+\subsubsection* {Assumptions}
+None
+\subsubsection* {Access Routine Semantics}
+
+\noindent Pipe($p1, p2$):
+\begin{itemize}
+\item transition: $x, height := p1, p2$
+\item output: $out := $A Pipe object with x,height set to p1, p2
+\item exception $ exc := (x \leq 0 \lor height \leq 0 ) \Rightarrow invalid\_coordinates $
+\end{itemize}
+
+\newpage
+
+\section* {Ground Module}
+
+\subsection*{Module}
+
+Ground
+
+\subsection* {Uses}
+
+pygame.sprite.Sprite
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+None
+
+\subsubsection* {Exported Types}
+
+Ground
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Ground &$\mathbb{Z}, \mathbb{Z}$ & Ground & invalid\_coordinates\\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+$x: \mathbb{Z}$\\
+Pixel X-coordinate of the ground.\\\\
+$width: \mathbb{Z}$\\
+Pixel width of ground.
+\subsubsection* {Environment Variables}
+
+None
+
+\subsubsection* {State Invariant}
+$x > 0$\\
+$width > 0$\\ 
+\subsubsection* {Assumptions}
+None
+\subsubsection* {Access Routine Semantics}
+
+\noindent Ground($p1, p2$):
+\begin{itemize}
+\item transition: $x,width := p1, p2$
+\item output: $out := $A Ground object with x,width set to p1, p2
+\item exception $ exc := (x \leq 0 \lor width \leq 0 ) \Rightarrow invalid\_coordinates $
+\end{itemize}
+
+\newpage
+
+\section* {Step Module}
+
+\subsection*{Module}
+
+Step
+
+\subsection* {Uses}
+
+pygame.sprite.Sprite
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+
+None
+
+\subsubsection* {Exported Types}
+
+Step
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Step &$\mathbb{Z}, \mathbb{Z}$ & Step & invalid\_coordinates\\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+$x: \mathbb{Z}$\\
+Pixel X-coordinate of the step\\\\
+$y: \mathbb{Z}$\\
+Pixel Y-coordinate of the ground\\
+\subsubsection* {Environment Variables}
+None
+\subsubsection* {State Invariant}
+$x > 0$\\
+$y > 0$\\ 
+\subsubsection* {Assumptions}
+None
+\subsubsection* {Access Routine Semantics}
+
+\noindent Step($p1, p2$):
+\begin{itemize}
+\item transition: $x,y := p1, p2$
+\item output: $out := $A Ground object with x,y set to p1, p2
+\item exception $ exc := (x \leq 0 \lor y \leq 0 ) \Rightarrow invalid\_coordinates $
+\end{itemize}
+
+\newpage
+
+
+\section* {Constants Module}
+\subsection*{Module}
+Constants
+\subsection* {Uses}
+None
+\subsection* {Syntax}
+\subsubsection* {Exported Constants}
+SCREEN\_HEIGHT = 600\\
+SCREEN\_WIDTH = 800\\
+SCREEN\_SIZE = (SCREEN\_WIDTH,SCREEN\_HEIGHT)\\
+BRICK\_SIZE\_MULTIPLIER = 2.69\\
+BACKGROUND\_MULTIPLER = 2.679\\
+GROUND\_HEIGHT = SCREEN\_HEIGHT - 62\\
+WALK\_ACCEL = .15\\
+RUN\_ACCEL = 20\\
+SMALL\_TURNAROUND = .35\\
+GRAVITY = 1.01\\
+JUMP\_GRAVITY = .31\\
+JUMP\_VEL = -10.5\\
+FAST\_JUMP\_VEL = -12.5\\
+MAX\_Y\_VEL = 11\\
+MAX\_RUN\_SPEED = 800\\
+MAX\_WALK\_SPEED = 6\\
+\subsubsection* {Exported Types}
+None
+\subsubsection* {Exported Access Programs}
+None
+\subsection* {Semantics}
+\subsubsection* {State Variables}
+None
+\subsubsection* {State Invariant}
+None
+\newpage
+
+\section* {Enemy}
+\subsection* {Module}
+Enemy
+\subsection* {Uses}
+pygame.sprite.Sprite
+\subsection* {Syntax}
+\subsubsection* {Exported Types}
+Enemy
+\subsubsection* {Exported Constants}
+None
+\subsubsection* {Exported Access Programs}
+\begin{tabular}{| l | l | l | p{3.5cm} |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Enemy & ~ & Enemy & ~\\
+\hline
+setup\_enemy & $\mathbb{Z},\mathbb{Z},\{LEFT, RIGHT\}$ & ~ & ~\\
+\hline
+set\_image & $pygame.image$ & ~ & ~\\
+\hline
+set\_velocity & ~ & ~ & ~\\
+\hline
+jumped\_on & ~ & ~ & ~\\
+\hline
+update & ~ & ~\\
+\hline
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+$x: \mathbb{Z}$\\
+Pixel X-coordinate of spawn point\\\\
+$y: \mathbb{Z}$\\
+Pixel Y-coordinate of spawn point\\\\
+$direction: \{LEFT,RIGHT\}$\\
+Direction monster is travelling. Either left or right \\\\
+$x\_vel: \mathbb{Z}$ \\
+Horizontal velocity of Monster. Positive is to the right, negative to left.
+$y\_vel: \mathbb{Z}$ \\
+Vertical velocity of Monster. Positive is downwards.\\\\
+$image: pygame.image$\\
+Image of the monster.\\\\
+$state: \{WALKING, FALLING\}$\\
+State of the monster.\\\\
+
+
+\subsubsection* {Environment Variables}
+None
+\subsubsection* {State Invariant}
+$y\_vel >= 0$\\
+\subsubsection* {Assumptions}
+\begin{itemize}
+\item The \textbf{setup\_monster()} routine is called after \textbf{Enemy()} but before other routines.
+\end{itemize}
+
+\subsubsection* {Access Routine Semantics}
+
+Enemy():
+\begin{itemize}
+\item transition: $x, y, direction, x\_vel, y\_vel := 0, 0, NULL, 0, 0 $
+\item output: $out := $ An enemy object.
+\item exception: None\\
+\end{itemize}
+
+\noindent setup\_enemy(p1,p2,p3):
+\begin{itemize}
+\item transition: $x,y,direction := $ p1,p2,p3.
+\item ouput : None
+\item exception: None\\
+\end{itemize}
+
+\noindent set\_image(p1):
+\begin{itemize}
+\item transition: $image := p1$
+\item output: None
+\item exception: None
+\end{itemize}
+
+\noindent set\_velocity():
+\begin{itemize}
+\item transition: 
+\\
+$ (direction = LEFT) \Rightarrow x\_vel := -2$\\
+$ (direction = RIGHT) \Rightarrow x\_vel := 2$\\
+\item output: None
+\item exception: None
+\end{itemize}
+
+\noindent jumped\_on():
+\begin{itemize}
+\item transition: 
+$y\_vel < 10 \Rightarrow y\_vel = y\_vel + 10$
+\item output: None
+\item exception: None
+\end{itemize}
+
+\noindent update():\\
+\textit{Called externally every frame by pygame framework.}
+\begin{itemize}
+\item transition:\\
+$state=FALLING \Rightarrow image := (monsterFallingImage)$\\
+$state=WALKING \Rightarrow image := monsterWalkingImage$
+\item output: None
+\item exception: None
+\end{itemize}
+\subsection*{Local Functions}
+None
+\newpage
+\end {document}
