@@ -278,8 +278,16 @@ selected.
 \subsubsection{Game Sound Module}
 \begin{description}
 \item[Secrets:]Plays game sounds.
-\item[Services:] This module calls Pygame functions to set up the run time window to hold the game's graphics.
-    This module also loads all of the games sounds, fonts, and sprite image files into the game's memory.
+\item[Services:] From the sound files that are loaded, this module determines when to play each sound. Such as
+    Background music, jumping sound effects, winning music, etc.
+\item[Implemented By:] Python
+\end{description}
+
+\subsubsection{Tools Module}
+\begin{description}
+\item[Secrets:] Controls all the game's states.
+\item[Services:] This module provides functions to load all sprites, sounds, music to the game from a file.
+    This module provides the functions and methods to allow the game to transition between states.
 \item[Implemented By:] Python
 \end{description}
 
