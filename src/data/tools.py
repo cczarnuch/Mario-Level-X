@@ -107,7 +107,6 @@ class _State(object):
         pass
 
 
-
 def load_all_gfx(directory, colorkey=(255,0,255), accept=('.png', 'jpg', 'bmp')):
     graphics = {}
     for pic in os.listdir(directory):
@@ -149,3 +148,10 @@ def load_all_sfx(directory, accept=('.wav','.mpe','.ogg','.mdi')):
 def load_level_json(filename):
     with open(os.path.join('resources', 'levels', filename), 'r') as f: 
         return json.loads(f.read())
+
+def is_num(x):
+    try:
+        int(x)
+        return True
+    except:
+        return False

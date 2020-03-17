@@ -211,7 +211,7 @@ class Level1(tools._State):
 
         #load enemies
         for data in self.level_data['enemies']:
-            x, name = data['x'], data['name'].capitalize()
+            x, name = data['x'], data['name']
             enemy = checkpoint.Checkpoint(x-9,name)
             self.check_point_group.add(enemy)
 
@@ -227,10 +227,11 @@ class Level1(tools._State):
 
             if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
                 if checkpoint.name == c.GOOMBA:
-                     enemy = enemies.Goomba(self.viewport.right) 
+                     enemy = enemies.Goomba() 
                 else: 
-                    enemy = enemies.Koopa(self.viewport.right)
+                    enemy = enemies.Koopa()
                 
+                enemy.rect.x = self.viewport.right
                 self.enemy_group.add(enemy)
 
             elif checkpoint.name == c.FLAGPOLE:
@@ -279,7 +280,7 @@ class Level1(tools._State):
                                                      self.enemy_group)
 
 
-    def update(self, surface, keys, current_time):
+    def update(self, surface, keys, current_time, mouse):
         """Updates Entire level using states.  Called by the control object"""
         self.game_info[c.CURRENT_TIME] = self.current_time = current_time
         self.handle_states(keys)

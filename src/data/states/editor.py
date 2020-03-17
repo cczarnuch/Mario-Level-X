@@ -17,9 +17,10 @@ from .. components import score
 from .. components import castle_flag
 
 
-class Level1(tools._State):
+class Editor(tools._State):
     def __init__(self):
         tools._State.__init__(self)
+        
 
     def startup(self, current_time, persist):
         """Called when the State object is created"""
@@ -39,12 +40,13 @@ class Level1(tools._State):
         self.overhead_info_display = info.OverheadInfo(self.game_info, c.LEVEL)
         self.sound_manager = game_sound.Sound(self.overhead_info_display)
 
-        # self.initiate_groups()
-        
-        level = tools.load_level_json('level1.json')
-        self.level_info = level['info']
-        self.level_data = level['data']
-        
+        self.selected_item = 0
+        self.items = [c.PIPE, c.BRICK1, c.STEP, c.GOOMBA, c.KOOPA]
+        self.selected_item_sprite = None
+        self.num_items = len(self.items) 
+        self.item_text = self.get_surface_text(c.PIPE,c.GREEN)
+
+
         self.setup_background()
         self.setup_ground()
         self.setup_pipes()
@@ -56,6 +58,10 @@ class Level1(tools._State):
         self.setup_checkpoints()
         self.setup_spritegroups()
 
+
+    def get_surface_text(self, text, color, size = 20):
+        font = pg.font.SysFont("comicsansms", size)
+        return font.render(text, True, color)
 
     def setup_background(self):
         """Sets the background image, rect and scales it to the correct
@@ -77,21 +83,9 @@ class Level1(tools._State):
     def setup_ground(self):
         """Creates collideable, invisible rectangles over top of the ground for
         sprites to walk on"""
-        # ground_rect1 = collider.Collider(0, c.GROUND_HEIGHT,    2953, 60)
-        # ground_rect2 = collider.Collider(3048, c.GROUND_HEIGHT,  635, 60)
-        # ground_rect3 = collider.Collider(3819, c.GROUND_HEIGHT, 2735, 60)
-        # ground_rect4 = collider.Collider(6647, c.GROUND_HEIGHT, 2300, 60)
-
-        ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT,   69)
-        ground_rect2 = collider.Ground(71, c.GROUND_HEIGHT,  15)
-        ground_rect3 = collider.Ground(89, c.GROUND_HEIGHT,  64)
-        ground_rect4 = collider.Ground(155, c.GROUND_HEIGHT, 53)
-
-        self.ground_group = pg.sprite.Group(ground_rect1,
-                                           ground_rect2,
-                                           ground_rect3,
-                                           ground_rect4)
-
+        
+        ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT, 250)
+        self.ground_group = pg.sprite.Group(ground_rect1)
         #Still needs testing to see if this block below works
         #self.ground_group = pg.sprite.Group()
         #for group in self.level_data['grounds']:
@@ -100,28 +94,12 @@ class Level1(tools._State):
 
     def setup_pipes(self):
         """Create collideable rects for all the pipes"""
-
-        # pipe1 = collider.Pipe(1202, 82)
-        # pipe2 = collider.Pipe(1631, 140)
-        # pipe3 = collider.Pipe(1973, 170)
-        # pipe4 = collider.Pipe(2445, 170)
-        # pipe5 = collider.Pipe(6989, 82)
-        # pipe6 = collider.Pipe(7675, 82)
-
-        # self.pipe_group = pg.sprite.Group(pipe1, pipe2,
-        #                                   pipe3, pipe4,
-        #                                   pipe5, pipe6)
-
         self.pipe_group = pg.sprite.Group()
-        for pipe in self.level_data['pipes']:
-            self.pipe_group.add(collider.Pipe(pipe['x'], pipe['height']))
 
 
     def setup_steps(self):
         """Create collideable rects for all the steps"""
         self.step_group = pg.sprite.Group()
-        for step in self.level_data['steps']:
-            self.step_group.add(collider.Step(step['x'], step['y']))
 
 
     def setup_bricks(self):
@@ -130,36 +108,11 @@ class Level1(tools._State):
         self.coin_group = pg.sprite.Group()
         self.powerup_group = pg.sprite.Group()
         self.brick_pieces_group = pg.sprite.Group()
-
         self.brick_group = pg.sprite.Group()
-        for data in self.level_data['bricks']:
-            x, y = data['x'], data['y']
-            if 'contents' in data:
-                contents = data['contents']
-                group = None
-                if contents == c.SIXCOINS:
-                    group = self.coin_group
-                elif contents == c.STAR:
-                    group = self.powerup_group
-                brick = bricks.Brick(x, y, contents, group)
-            else: 
-                brick = bricks.Brick(x, y)            
-            self.brick_group.add(brick)
 
     def setup_coin_boxes(self):
         """Creates all the coin boxes and puts them in a sprite group"""
         self.coin_box_group = pg.sprite.Group()
-        for data in self.level_data['coin_boxes']:
-            x, y = data['x'], data['y']
-            contents = data['contents']
-            group = None
-            if contents == c.COIN:
-                group = self.coin_group
-            else:
-                #contents = c.MUSHROOM
-                group = self.powerup_group
-            cb = coin_box.Coin_box(x, y, contents, group)
-            self.coin_box_group.add(cb)
 
     def setup_flag_pole(self):
         """Creates the flag pole at the end of the level"""
@@ -209,13 +162,6 @@ class Level1(tools._State):
         castle = checkpoint.Checkpoint(204, c.IN_CASTLE)
         self.check_point_group = pg.sprite.Group(flagpole, castle)
 
-        #load enemies
-        for data in self.level_data['enemies']:
-            x, name = data['x'], data['name'].capitalize()
-            enemy = checkpoint.Checkpoint(x-9,name)
-            self.check_point_group.add(enemy)
-
-
     def check_points_check(self):
         """Detect if checkpoint collision occurs, delete checkpoint,
         add enemies to self.enemy_group"""
@@ -227,27 +173,30 @@ class Level1(tools._State):
 
             if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
                 if checkpoint.name == c.GOOMBA:
-                     enemy = enemies.Goomba(self.viewport.right) 
+                     enemy = enemies.Goomba() 
                 else: 
-                    enemy = enemies.Koopa(self.viewport.right)
+                    enemy = enemies.Koopa()
                 
+                enemy.rect.x = self.viewport.right
                 self.enemy_group.add(enemy)
 
             elif checkpoint.name == c.FLAGPOLE:
-                self.mario.state = c.FLAGPOLE
-                self.mario.invincible = False
-                self.mario.flag_pole_right = checkpoint.rect.right
-                if self.mario.rect.bottom < self.flag.rect.y:
-                    self.mario.rect.bottom = self.flag.rect.y
-                self.flag.state = c.SLIDE_DOWN
-                self.create_flag_points()
+                return
+                # self.mario.state = c.FLAGPOLE
+                # self.mario.invincible = False
+                # self.mario.flag_pole_right = checkpoint.rect.right
+                # if self.mario.rect.bottom < self.flag.rect.y:
+                #     self.mario.rect.bottom = self.flag.rect.y
+                # self.flag.state = c.SLIDE_DOWN
+                # self.create_flag_points()
 
             elif checkpoint.name == c.IN_CASTLE:
-                self.state = c.IN_CASTLE
-                self.mario.kill()
-                self.mario.state == c.STAND
-                self.mario.in_castle = True
-                self.overhead_info_display.state = c.FAST_COUNT_DOWN
+                return
+                # self.state = c.IN_CASTLE
+                # self.mario.kill()
+                # self.mario.state == c.STAND
+                # self.mario.in_castle = True
+                # self.overhead_info_display.state = c.FAST_COUNT_DOWN
 
 
             elif checkpoint.name == 'secret_mushroom' and self.mario.y_vel < 0:
@@ -279,6 +228,10 @@ class Level1(tools._State):
                                                      self.enemy_group)
 
 
+        self.selected_item_sprite = collider.Pipe(0,10)
+        self.item_group = pg.sprite.Group(self.selected_item_sprite)
+
+
     def update(self, surface, keys, current_time):
         """Updates Entire level using states.  Called by the control object"""
         self.game_info[c.CURRENT_TIME] = self.current_time = current_time
@@ -286,8 +239,7 @@ class Level1(tools._State):
         self.check_if_time_out()
         self.blit_everything(surface)
         self.sound_manager.update(self.game_info, self.mario)
-
-
+        self.handle_mouse()
 
     def handle_states(self, keys):
         """If the level is in a FROZEN state, only mario will update"""
@@ -299,6 +251,21 @@ class Level1(tools._State):
             self.update_while_in_castle()
         elif self.state == c.FLAG_AND_FIREWORKS:
             self.update_flag_and_fireworks()
+
+    def handle_mouse(self):
+        pass
+
+    def get_event(self, event):
+        self.update_selected_item(event)
+
+    def update_selected_item(self,event):
+        if event.type == pg.KEYDOWN:
+            if pg.key.get_pressed()[pg.K_ESCAPE]:self.selected_item = 0
+            if not tools.is_num(event.unicode): return 
+            x = int(event.unicode)
+            if self.selected_item == x: return
+            if 0 <= x <= self.num_items:
+                self.selected_item = x
 
 
     def update_during_transition_state(self, keys):
@@ -420,6 +387,7 @@ class Level1(tools._State):
             self.adjust_mario_for_x_collisions(collider)
 
         elif enemy:
+            return
             if self.mario.invincible:
                 setup.SFX['kick'].play()
                 self.game_info[c.SCORE] += 100
@@ -1221,8 +1189,9 @@ class Level1(tools._State):
         if self.game_info[c.SCORE] > self.persist[c.TOP_SCORE]:
             self.persist[c.TOP_SCORE] = self.game_info[c.SCORE]
         if self.mario.dead:
-            self.persist[c.LIVES] -= 1
-
+            #unlimited lives
+            #self.persist[c.LIVES] -= 1
+            pass
         if self.persist[c.LIVES] == 0:
             self.next = c.GAME_OVER
             self.game_info[c.CAMERA_START_X] = 0
@@ -1249,19 +1218,18 @@ class Level1(tools._State):
 
     def update_viewport(self):
         """Changes the view of the camera"""
-        third = self.viewport.x + self.viewport.w//3
         mario_center = self.mario.rect.centerx
-        mario_right = self.mario.rect.right
-        
-        half = self.viewport.x + self.viewport.w*2//5
-        if self.mario.x_vel > 0 and mario_center >= third:
-            if mario_center >= half:
-                new = mario_center - self.viewport.w*2//5
-            elif mario_center >= third:
-                mult = 0.5 if mario_right < self.viewport.centerx else 1
-                new = self.viewport.x + mult * self.mario.x_vel
-            highest = self.level_rect.w - self.viewport.w
-            self.viewport.x = min(highest, new)
+        screen_left = self.viewport.x + 100
+        screen_right = self.viewport.x + self.viewport.w - 100
+        highest = self.level_rect.w - self.viewport.w
+        if self.viewport.x < highest and self.mario.x_vel > 0.5 and mario_center >= screen_right:
+            newcamera = self.viewport.x + 0.8 * self.viewport.w
+            self.viewport.x = min(highest, newcamera)
+        elif self.viewport.x > 0 and self.mario.x_vel < 0 and mario_center <= screen_left:
+            #print('adjust left')
+            newcamera = self.viewport.x - 0.8 * self.viewport.w
+            self.viewport.x = max(0, newcamera)
+
 
 
     def update_while_in_castle(self):
@@ -1295,6 +1263,8 @@ class Level1(tools._State):
             self.sound_manager.stop_music()
             self.done = True
 
+    def get_selected_item(self):
+        return self.items[self.selected_item - 1]
 
     def blit_everything(self, surface):
         """Blit all sprites to the main surface"""
@@ -1316,7 +1286,46 @@ class Level1(tools._State):
         self.flag_pole_group.draw(self.level)
         self.mario_and_enemy_group.draw(self.level)
 
+        # for score in self.moving_score_list:
+        #     score.draw(surface)
+
+        #
+        # pos = pg.mouse.get_pos()
+        
+        self.blit_preview()
         surface.blit(self.level, (0,0), self.viewport)
         self.overhead_info_display.draw(surface)
-        for score in self.moving_score_list:
-            score.draw(surface)
+        self.blit_editor(surface)
+
+
+    def blit_editor(self, surface):
+        selected_item = 0
+        if self.selected_item != 0:
+            selected_item = self.get_selected_item()
+        height = 90
+        size = 20
+        for i, item in enumerate(self.items):
+            color = c.GREEN if selected_item != 0 and item == selected_item else c.WHITE
+            surface.blit(self.get_surface_text( str(i+1)+ '. '+ item,color,size),(50, height))
+            height += size + 10
+
+    def blit_preview(self):
+        selected_item = self.get_selected_item()
+        if selected_item == c.PIPE:
+            self.item_group.draw(self.level)
+            pos = pg.mouse.get_pos()
+            x = self.viewport.x + pos[0] - 25
+            y = pos[1]
+            y = min(c.GROUND_HEIGHT, y)
+            y = max(20,y)
+            self.selected_item_sprite.set_dimensions(x, y)
+        elif selected_item == c.BRICK1:
+            pass
+        elif selected_item == c.STEP:
+            pass
+        elif selected_item == c.GOOMBA:
+            pass
+        elif selected_item == c.KOOPA:
+            pass
+
+        

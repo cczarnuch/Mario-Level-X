@@ -219,8 +219,8 @@ class OverheadInfo(object):
         top = []
         top_score = []
 
-        self.create_label(player_one_game, '1 PLAYER GAME', 272, 360)
-        self.create_label(player_two_game, '2 PLAYER GAME', 272, 405)
+        self.create_label(player_one_game, 'PLAY', 272, 360)
+        self.create_label(player_two_game, 'LEVELS', 272, 405)
         self.create_label(top, 'TOP - ', 290, 465)
         self.create_label(top_score, '000000', 400, 465)
 
@@ -452,12 +452,3 @@ class OverheadInfo(object):
                 surface.blit(letter.image, letter.rect)
 
         surface.blit(self.flashing_coin.image, self.flashing_coin.rect)
-
-
-
-
-
-
-
-
-

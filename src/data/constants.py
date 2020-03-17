@@ -118,11 +118,6 @@ LIFE_MUSHROOM = '1up_mushroom'
 
 FIREBALL = 'fireball'
 
-#LIST of ENEMIES
-
-GOOMBA = 'goomba'
-KOOPA = 'koopa'
-
 #LEVEL STATES
 
 FROZEN = 'frozen'
@@ -139,8 +134,8 @@ BOTTOM_OF_POLE = 'bottom of pole'
 ONEUP = '379'
 
 #MAIN MENU CURSOR STATES
-PLAYER1 = '1 player'
-PLAYER2 = '2 player'
+PLAYER1 = 'Play'
+MYLEVELS = 'My Levels'
 
 #OVERHEAD INFO STATES
 MAIN_MENU = 'main menu'
@@ -168,6 +163,9 @@ TIME_OUT = 'time out'
 GAME_OVER = 'game over'
 LEVEL1 = 'level1'
 
+LEVELLIST = 'levellist'
+EDITOR = 'editor'
+
 #SOUND STATEZ
 NORMAL = 'normal'
 STAGE_CLEAR = 'stage clear'
@@ -175,3 +173,12 @@ WORLD_CLEAR = 'world clear'
 TIME_WARNING = 'time warning'
 SPED_UP_NORMAL = 'sped up normal'
 MARIO_INVINCIBLE = 'mario invincible'
+
+
+#items
+PIPE = 'Pipe'
+BRICK1 = 'Normal brick'
+STEP = 'Step'
+#monstsers. do not change
+GOOMBA = 'Goomba'
+KOOPA = 'Koopa'

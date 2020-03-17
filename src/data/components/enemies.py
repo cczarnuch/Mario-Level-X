@@ -11,9 +11,10 @@ class Enemy(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
 
-
     def setup_enemy(self, x, y, direction, name, setup_frames):
         """Sets up various values for enemy"""
+        self.x = x
+        self.y = y
         self.sprite_sheet = setup.GFX['smb_enemies_sheet']
         self.frames = []
         self.frame_index = 0
@@ -133,7 +134,7 @@ class Enemy(pg.sprite.Sprite):
 
 class Goomba(Enemy):
 
-    def __init__(self, y=c.GROUND_HEIGHT, x=0, direction=c.LEFT, name='goomba'):
+    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='goomba'):
         Enemy.__init__(self)
         self.setup_enemy(x, y, direction, name, self.setup_frames)
 
@@ -161,7 +162,7 @@ class Goomba(Enemy):
 
 class Koopa(Enemy):
 
-    def __init__(self, y=c.GROUND_HEIGHT, x=0, direction=c.LEFT, name='koopa'):
+    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='koopa'):
         Enemy.__init__(self)
         self.setup_enemy(x, y, direction, name, self.setup_frames)
 
