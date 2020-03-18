@@ -1,7 +1,7 @@
 __author__ = 'justinarmstrong'
 
 import pygame as pg
-from .. import setup
+from .. import setup, tools
 from .. import constants as c
 from . import powerups
 from . import coin
@@ -19,11 +19,9 @@ class Brick(pg.sprite.Sprite):
         self.setup_frames()
         self.image = self.frames[self.frame_index]
         self.rect = self.image.get_rect()
-        self.rect.x = x * 43
-        self.rect.y = y * 43 - 22
+        self.set_dimensions(x,y)
         self.mask = pg.mask.from_surface(self.image)
         self.bumped_up = False
-        self.rest_height = self.rect.y
         self.state = c.RESTING
         self.y_vel = 0
         self.gravity = 1.2
@@ -33,6 +31,15 @@ class Brick(pg.sprite.Sprite):
         self.group = powerup_group
         self.powerup_in_box = True
 
+    def set_dimensions(self,x,y):
+        x -= self.rect.w // 2
+        y -= self.rect.h // 2
+        self.rect.x = tools.round_to_multiple(x, self.rect.w)
+        refy = max(0,tools.round_to_multiple(c.GROUND_HEIGHT - y, self.rect.h))
+        self.rect.y = c.GROUND_HEIGHT - refy
+        
+        #return y after bounce
+        self.rest_height = self.rect.y
 
     def get_image(self, x, y, width, height):
         """Extracts the image from the sprite sheet"""
@@ -88,7 +95,8 @@ class Brick(pg.sprite.Sprite):
         self.rect.y += self.y_vel
         self.y_vel += self.gravity
 
-        if self.rect.y >= (self.rest_height + 5):
+        print(self.rect.y, self.rest_height)
+        if self.rect.y >= self.rest_height:
             self.rect.y = self.rest_height
             if self.contents == 'star':
                 self.state = c.OPENED

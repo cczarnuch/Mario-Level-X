@@ -2,7 +2,7 @@ __author__ = 'justinarmstrong'
 
 
 import pygame as pg
-from .. import setup
+from .. import setup, tools
 from .. import constants as c
 
 
@@ -10,7 +10,6 @@ class Enemy(pg.sprite.Sprite):
     """Base class for all enemies (Goombas, Koopas, etc.)"""
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-
 
     def setup_enemy(self, x, y, direction, name, setup_frames):
         """Sets up various values for enemy"""
@@ -28,9 +27,14 @@ class Enemy(pg.sprite.Sprite):
 
         self.image = self.frames[self.frame_index]
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.bottom = y
+        self.set_dimensions(x,y)
         self.set_velocity()
+
+    def set_dimensions(self,x,y):
+        x -= self.rect.w // 2
+        y -= self.rect.h // 2
+        self.rect.y = min(c.GROUND_HEIGHT - self.rect.h, y)
+        self.rect.x = x
 
 
     def set_velocity(self):
@@ -128,12 +132,17 @@ class Enemy(pg.sprite.Sprite):
         self.handle_state()
         self.animation()
 
-
+    def serialize(self):
+        return {
+            'x': self.rect.x,
+            'y': self.rect.y,
+            'name': self.name
+        }
 
 
 class Goomba(Enemy):
 
-    def __init__(self, y=c.GROUND_HEIGHT, x=0, direction=c.LEFT, name='goomba'):
+    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='goomba'):
         Enemy.__init__(self)
         self.setup_enemy(x, y, direction, name, self.setup_frames)
 
@@ -161,7 +170,7 @@ class Goomba(Enemy):
 
 class Koopa(Enemy):
 
-    def __init__(self, y=c.GROUND_HEIGHT, x=0, direction=c.LEFT, name='koopa'):
+    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='koopa'):
         Enemy.__init__(self)
         self.setup_enemy(x, y, direction, name, self.setup_frames)
 
