@@ -21,7 +21,7 @@ class Enemy(pg.sprite.Sprite):
         self.gravity = 1.5
         self.state = c.WALK
 
-        self.name = name
+        self.name = name.capitalize()
         self.direction = direction
         setup_frames()
 
@@ -142,7 +142,7 @@ class Enemy(pg.sprite.Sprite):
 
 class Goomba(Enemy):
 
-    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='goomba'):
+    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='Goomba'):
         Enemy.__init__(self)
         self.setup_enemy(x, y, direction, name, self.setup_frames)
 
@@ -170,7 +170,7 @@ class Goomba(Enemy):
 
 class Koopa(Enemy):
 
-    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='koopa'):
+    def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='Koopa'):
         Enemy.__init__(self)
         self.setup_enemy(x, y, direction, name, self.setup_frames)
 

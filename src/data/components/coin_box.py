@@ -31,6 +31,13 @@ class Coin_box(pg.sprite.Sprite):
         self.group = group
 
 
+    def serialize(self):
+        return {
+            'x': self.rect.x,
+            'y': self.rect.y,
+            'content': self.contents
+        }
+
     def get_image(self, x, y, width, height):
         """Extract image from sprite sheet"""
         image = pg.Surface([width, height]).convert()

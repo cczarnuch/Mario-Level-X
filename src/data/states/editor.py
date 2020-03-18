@@ -87,11 +87,6 @@ class Editor(tools._State):
         
         ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT, 250)
         self.ground_group = pg.sprite.Group(ground_rect1)
-        #Still needs testing to see if this block below works
-        #self.ground_group = pg.sprite.Group()
-        #for group in self.level_data['grounds']:
-#            self.ground_group.add(collider.Ground(ground['xStart'], 538, ground['xEnd']))
-
 
     def setup_pipes(self):
         """Create collideable rects for all the pipes"""
@@ -166,53 +161,37 @@ class Editor(tools._State):
     def check_points_check(self):
         """Detect if checkpoint collision occurs, delete checkpoint,
         add enemies to self.enemy_group"""
-        checkpoint = pg.sprite.spritecollideany(self.mario,
-                                                 self.check_point_group)
-        if checkpoint:
-            #remove checkpoint sprite from group
-            checkpoint.kill()
+        pass
+        #checkpoint = pg.sprite.spritecollideany(self.mario,
+        #                                         self.check_point_group)
 
-            if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
-                if checkpoint.name == c.GOOMBA:
-                     enemy = enemies.Goomba() 
-                else: 
-                    enemy = enemies.Koopa()
+        # if checkpoint:
+        #     #remove checkpoint sprite from group
+        #     checkpoint.kill()
+
+        #     if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
+        #         if checkpoint.name == c.GOOMBA:
+        #              enemy = enemies.Goomba() 
+        #         else: 
+        #             enemy = enemies.Koopa()
                 
-                enemy.rect.x = self.viewport.right
-                self.enemy_group.add(enemy)
-
-            elif checkpoint.name == c.FLAGPOLE:
-                return
-                # self.mario.state = c.FLAGPOLE
-                # self.mario.invincible = False
-                # self.mario.flag_pole_right = checkpoint.rect.right
-                # if self.mario.rect.bottom < self.flag.rect.y:
-                #     self.mario.rect.bottom = self.flag.rect.y
-                # self.flag.state = c.SLIDE_DOWN
-                # self.create_flag_points()
-
-            elif checkpoint.name == c.IN_CASTLE:
-                return
-                # self.state = c.IN_CASTLE
-                # self.mario.kill()
-                # self.mario.state == c.STAND
-                # self.mario.in_castle = True
-                # self.overhead_info_display.state = c.FAST_COUNT_DOWN
+        #         enemy.rect.x = self.viewport.right
+        #         self.enemy_group.add(enemy)
 
 
-            elif checkpoint.name == 'secret_mushroom' and self.mario.y_vel < 0:
-                mushroom_box = coin_box.Coin_box(checkpoint.rect.x,
-                                        checkpoint.rect.bottom - 40,
-                                        '1up_mushroom',
-                                        self.powerup_group)
-                mushroom_box.start_bump(self.moving_score_list)
-                self.coin_box_group.add(mushroom_box)
+        #     elif checkpoint.name == 'secret_mushroom' and self.mario.y_vel < 0:
+        #         mushroom_box = coin_box.Coin_box(checkpoint.rect.x,
+        #                                 checkpoint.rect.bottom - 40,
+        #                                 '1up_mushroom',
+        #                                 self.powerup_group)
+        #         mushroom_box.start_bump(self.moving_score_list)
+        #         self.coin_box_group.add(mushroom_box)
 
-                self.mario.y_vel = 7
-                self.mario.rect.y = mushroom_box.rect.bottom
-                self.mario.state = c.FALL
+        #         self.mario.y_vel = 7
+        #         self.mario.rect.y = mushroom_box.rect.bottom
+        #         self.mario.state = c.FALL
 
-            self.mario_and_enemy_group.add(self.enemy_group)
+        #     self.mario_and_enemy_group.add(self.enemy_group)
 
 
     def setup_spritegroups(self):
@@ -220,7 +199,6 @@ class Editor(tools._State):
         self.sprites_about_to_die_group = pg.sprite.Group()
         self.shell_group = pg.sprite.Group()
         self.enemy_group = pg.sprite.Group()
-
         self.ground_step_pipe_group = pg.sprite.Group(self.ground_group,
                                                       self.pipe_group,
                                                       self.step_group)
@@ -239,6 +217,8 @@ class Editor(tools._State):
         self.check_if_time_out()
         self.blit_everything(surface)
         self.sound_manager.update(self.game_info, self.mario)
+        
+        self.handle_save(keys)
 
     def handle_states(self, keys):
         """If the level is in a FROZEN state, only mario will update"""
@@ -250,6 +230,9 @@ class Editor(tools._State):
             self.update_while_in_castle()
         elif self.state == c.FLAG_AND_FIREWORKS:
             self.update_flag_and_fireworks()
+
+
+
 
     def update_during_transition_state(self, keys):
         """Updates mario in a transition state (like becoming big, small,
@@ -707,19 +690,6 @@ class Editor(tools._State):
         """Mario collisions with all enemies on the y-axis"""
         if self.mario.y_vel > 0:
             setup.SFX['stomp'].play()
-            self.game_info[c.SCORE] += 100
-            self.moving_score_list.append(
-                score.Score(enemy.rect.centerx - self.viewport.x,
-                            enemy.rect.y, 100))
-            enemy.state = c.JUMPED_ON
-            enemy.kill()
-            if enemy.name == c.GOOMBA:
-                enemy.death_timer = self.current_time
-                self.sprites_about_to_die_group.add(enemy)
-            elif enemy.name == c.KOOPA:
-                self.shell_group.add(enemy)
-
-            self.mario.rect.bottom = enemy.rect.top
             self.mario.state = c.JUMP
             self.mario.y_vel = -7
         
@@ -748,7 +718,7 @@ class Editor(tools._State):
     def adjust_enemy_position(self):
         """Moves all enemies along the x, y axes and check for collisions"""
         for enemy in self.enemy_group:
-            enemy.rect.x += enemy.x_vel
+            #enemy.rect.x += enemy.x_vel
             self.check_enemy_x_collisions(enemy)
 
             enemy.rect.y += enemy.y_vel
@@ -1302,6 +1272,9 @@ class Editor(tools._State):
             self.selected_item_sprite.set_dimensions(x, y)
 
     def on_mouse_up(self, e):
+        self.render_preview_item(e)
+    
+    def render_preview_item(self, e):
         if self.selected_item == 0: return 
         selected_item = self.get_selected_item()
         pos = pg.mouse.get_pos()
@@ -1330,7 +1303,6 @@ class Editor(tools._State):
         elif selected_item == c.KOOPA:
             new_sprite = enemies.Koopa(x,y)
             map_group = self.enemy_group
-
             pass
 
         self.item_preview_group.remove(preview_sprite)
@@ -1338,6 +1310,7 @@ class Editor(tools._State):
         self.selected_item_sprite = new_sprite
         self.item_preview_group.add(new_sprite)
         if collison_group: update_group(collison_group, map_group)
+
 
 
     def update_selected_item(self,event):
@@ -1377,7 +1350,36 @@ class Editor(tools._State):
         elif self.mouse_down and event.type == pg.MOUSEBUTTONUP and event.button == 1:
             self.on_mouse_up(event)
 
-    
+
+    def handle_save(self, keys):
+        mouse_keys = pg.mouse.get_pressed()
+        if mouse_keys[2]:
+            print('right click')
+            self.serialize_map()
+            self.next = c.MAIN_MENU 
+            self.done = True
+            self.sound_manager.stop_music()
+            print('here')
+
+    def serialize_map(self):
+        level = {}
+        level['data'] = {}
+        level['info'] = {
+            'name': 'Test Level',
+            'author': 'test'
+        }
+        data = level['data']
+        data['pipes'] = []
+        data['steps'] = []
+        data['bricks'] = []
+        data['enemies'] = []
+        data['coin_boxes'] = []
+        for pipe in self.pipe_group: data['pipes'].append(pipe.serialize())
+        for step in self.step_group: data['steps'].append(step.serialize())
+        for brick in self.brick_group: data['bricks'].append(brick.serialize())
+        for enemy in self.enemy_group: data['enemies'].append(enemy.serialize())
+        for coin_box in self.coin_box_group: data['coin_boxes'].append(coin_box.serialize())
+        tools.write_level_json('output.json', level)
 
 
 def update_group(a,b):

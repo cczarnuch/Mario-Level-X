@@ -41,6 +41,12 @@ class Brick(pg.sprite.Sprite):
         #return y after bounce
         self.rest_height = self.rect.y
 
+    def serialize(self):
+        return {
+            'x': self.rect.x,
+            'y': self.rect.y,
+            'contents': self.contents
+        }
     def get_image(self, x, y, width, height):
         """Extracts the image from the sprite sheet"""
         image = pg.Surface([width, height]).convert()
