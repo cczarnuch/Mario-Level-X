@@ -155,3 +155,6 @@ def is_num(x):
         return True
     except:
         return False
+
+def round_to_multiple(x, base):  
+    return base * round(x/base)

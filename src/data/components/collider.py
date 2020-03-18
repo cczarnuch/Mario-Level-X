@@ -1,7 +1,7 @@
 __author__ = 'justinarmstrong'
 
 import pygame as pg
-from .. import setup
+from .. import setup,tools
 from .. import constants as c
 # from .. import setup
 
@@ -28,14 +28,16 @@ class Pipe(pg.sprite.Sprite):
     def set_dimensions(self, x, height):
         pipe_bottom = self.pipe_bottom
         pipe_top = self.pipe_top
-        pipe_bottom = pg.transform.scale(pipe_bottom, (86, c.GROUND_HEIGHT - height))
+        scaley =  max(0,c.GROUND_HEIGHT - height)
+        pipe_bottom = pg.transform.scale(pipe_bottom, (86, scaley))
         pipe_top = pg.transform.scale(pipe_top, (86,43))
         pipe_bottom.blit(pipe_top,(0,0))
         self.image = pipe_bottom
         self.rect = self.image.get_rect()
         self.rect.y = height
-        self.rect.x = x
-
+        x -= self.rect.w // 2
+        self.rect.x = tools.round_to_multiple(x, self.rect.w)
+        
     def serialize(self):
         return {
             "x": self.rect.x,
@@ -79,9 +81,17 @@ class Step(pg.sprite.Sprite):
         image = pg.transform.scale(image,(int(image.get_width()*c.BRICK_SIZE_MULTIPLIER),int(image.get_height()*c.BRICK_SIZE_MULTIPLIER)))
         self.image = image
         self.rect = image.get_rect()
-        self.rect.x = x * 43
-        self.rect.y = y * 43 - 22
+        self.set_dimensions(x,y)
         self.state = None
+    
+
+    def set_dimensions(self,x,y):
+        x -= self.rect.w // 2
+        y -= self.rect.h // 2
+        self.rect.x = tools.round_to_multiple(x, self.rect.w)
+        refy = max(0,tools.round_to_multiple(c.GROUND_HEIGHT - y, self.rect.h))
+        self.rect.y = c.GROUND_HEIGHT - refy
+    
     
     def serialize(self):
         return {

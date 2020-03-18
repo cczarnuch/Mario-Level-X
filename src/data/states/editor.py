@@ -29,6 +29,7 @@ class Editor(tools._State):
         self.game_info[c.CURRENT_TIME] = current_time
         self.game_info[c.LEVEL_STATE] = c.NOT_FROZEN
         self.game_info[c.MARIO_DEAD] = False
+        self.mouse_down = False
 
         self.state = c.NOT_FROZEN
         self.death_timer = 0
@@ -228,8 +229,7 @@ class Editor(tools._State):
                                                      self.enemy_group)
 
 
-        self.selected_item_sprite = collider.Pipe(0,10)
-        self.item_group = pg.sprite.Group(self.selected_item_sprite)
+        self.item_preview_group = pg.sprite.Group()
 
 
     def update(self, surface, keys, current_time):
@@ -239,7 +239,6 @@ class Editor(tools._State):
         self.check_if_time_out()
         self.blit_everything(surface)
         self.sound_manager.update(self.game_info, self.mario)
-        self.handle_mouse()
 
     def handle_states(self, keys):
         """If the level is in a FROZEN state, only mario will update"""
@@ -251,22 +250,6 @@ class Editor(tools._State):
             self.update_while_in_castle()
         elif self.state == c.FLAG_AND_FIREWORKS:
             self.update_flag_and_fireworks()
-
-    def handle_mouse(self):
-        pass
-
-    def get_event(self, event):
-        self.update_selected_item(event)
-
-    def update_selected_item(self,event):
-        if event.type == pg.KEYDOWN:
-            if pg.key.get_pressed()[pg.K_ESCAPE]:self.selected_item = 0
-            if not tools.is_num(event.unicode): return 
-            x = int(event.unicode)
-            if self.selected_item == x: return
-            if 0 <= x <= self.num_items:
-                self.selected_item = x
-
 
     def update_during_transition_state(self, keys):
         """Updates mario in a transition state (like becoming big, small,
@@ -384,6 +367,7 @@ class Editor(tools._State):
             self.adjust_mario_for_x_collisions(brick)
 
         elif collider:
+            print('collide')
             self.adjust_mario_for_x_collisions(collider)
 
         elif enemy:
@@ -1291,7 +1275,6 @@ class Editor(tools._State):
 
         #
         # pos = pg.mouse.get_pos()
-        
         self.blit_preview()
         surface.blit(self.level, (0,0), self.viewport)
         self.overhead_info_display.draw(surface)
@@ -1310,22 +1293,93 @@ class Editor(tools._State):
             height += size + 10
 
     def blit_preview(self):
-        selected_item = self.get_selected_item()
-        if selected_item == c.PIPE:
-            self.item_group.draw(self.level)
-            pos = pg.mouse.get_pos()
-            x = self.viewport.x + pos[0] - 25
-            y = pos[1]
-            y = min(c.GROUND_HEIGHT, y)
-            y = max(20,y)
+        if self.selected_item != 0: 
+            self.item_preview_group.draw(self.level)
+        pos = pg.mouse.get_pos()
+        x = self.viewport.x + pos[0]
+        y = pos[1]
+        if self.selected_item_sprite:
             self.selected_item_sprite.set_dimensions(x, y)
+
+    def on_mouse_up(self, e):
+        if self.selected_item == 0: return 
+        selected_item = self.get_selected_item()
+        pos = pg.mouse.get_pos()
+        x = self.viewport.x + pos[0]
+        y = pos[1]
+
+        preview_sprite = self.selected_item_sprite
+        map_group = None
+        new_sprite = None
+        collison_group = None
+        if selected_item == c.PIPE:
+            map_group = self.pipe_group
+            collison_group = self.ground_step_pipe_group
+            new_sprite = collider.Pipe(x,y)
         elif selected_item == c.BRICK1:
-            pass
+            map_group = self.brick_group
+            new_sprite = bricks.Brick(x,y)
         elif selected_item == c.STEP:
-            pass
+            map_group = self.step_group
+            collison_group = self.ground_step_pipe_group
+            new_sprite = collider.Step(x,y)
         elif selected_item == c.GOOMBA:
+            map_group = self.enemy_group
+            new_sprite = enemies.Goomba(x,y)
             pass
         elif selected_item == c.KOOPA:
+            new_sprite = enemies.Koopa(x,y)
+            map_group = self.enemy_group
+
             pass
 
+        self.item_preview_group.remove(preview_sprite)
+        map_group.add(preview_sprite)
+        self.selected_item_sprite = new_sprite
+        self.item_preview_group.add(new_sprite)
+        if collison_group: update_group(collison_group, map_group)
+
+
+    def update_selected_item(self,event):
+        if event.type == pg.KEYDOWN:
+            if pg.key.get_pressed()[pg.K_ESCAPE]: self.selected_item = 0
+            if not tools.is_num(event.unicode): return 
+            x = int(event.unicode)
+            if self.selected_item == x: return
+            if 0 <= x <= self.num_items:
+                self.selected_item = x
+                selected_item = self.get_selected_item()
+                if selected_item == 0: return
+                pos = pg.mouse.get_pos()
+                x,y = pos[0] + self.viewport.x, pos[1] 
+                self.item_preview_group.empty()
+                if selected_item == c.PIPE:
+                    self.item_preview_group.empty()
+                    self.selected_item_sprite = collider.Pipe(x,y)
+                elif selected_item == c.BRICK1:
+                    self.selected_item_sprite = bricks.Brick(x,y)
+                elif selected_item == c.STEP:
+                    self.selected_item_sprite = collider.Step(x,y)
+                elif selected_item == c.GOOMBA:
+                    self.selected_item_sprite = enemies.Goomba(x,y)
+                elif selected_item == c.KOOPA:
+                    self.selected_item_sprite = enemies.Koopa(x,y)
+                self.item_preview_group.add(self.selected_item_sprite)
         
+    def get_event(self, event):
+        self.update_selected_item(event)
+        self.mouse_up_listener(event)
+
+    def mouse_up_listener(self, event):
+        # if not pg.mouse.get_pressed()[0]:
+        if not self.mouse_down and event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+            self.mouse_down = True
+        elif self.mouse_down and event.type == pg.MOUSEBUTTONUP and event.button == 1:
+            self.on_mouse_up(event)
+
+    
+
+
+def update_group(a,b):
+    a.remove(b)
+    a.add(b)
