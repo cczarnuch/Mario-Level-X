@@ -41,7 +41,7 @@ class Level1(tools._State):
 
         # self.initiate_groups()
         
-        level = tools.load_level_json('level1.json')
+        level = tools.load_level_json('output.json')
         self.level_info = level['info']
         self.level_data = level['data']
         
@@ -199,20 +199,15 @@ class Level1(tools._State):
     def setup_checkpoints(self):
         """Creates invisible checkpoints that when collided will trigger
         the creation of enemies"""
-        #enemy x should be at least 60 apart, otherwise will collide on spawn 
-        # check1 = checkpoint.Checkpoint(510, c.GOOMBA) 
-        # check3 = checkpoint.Checkpoint(1740, c.KOOPA) 
-        #check4 = checkpoint.Checkpoint(2740, 'secret_mushroom', 360, 40, 12) todo
-        
         #flag and castle constant
-        flagpole = checkpoint.Checkpoint(198, c.FLAGPOLE, 0, 6)
-        castle = checkpoint.Checkpoint(204, c.IN_CASTLE)
+        flagpole = checkpoint.Checkpoint(198*43 + 22, c.FLAGPOLE * 43, 0, 6)
+        castle = checkpoint.Checkpoint(204*43, c.IN_CASTLE * 43)
         self.check_point_group = pg.sprite.Group(flagpole, castle)
 
         #load enemies
         for data in self.level_data['enemies']:
             x, name = data['x'], data['name'].capitalize()
-            enemy = checkpoint.Checkpoint(x-9,name)
+            enemy = checkpoint.Checkpoint(x,name)
             self.check_point_group.add(enemy)
 
 

@@ -14,6 +14,6 @@ class Checkpoint(pg.sprite.Sprite):
         self.image = pg.Surface((width, height))
         self.image.fill(c.BLACK)
         self.rect = self.image.get_rect()
-        self.rect.x = x * 43 + 22
-        self.rect.y = y * 43
+        self.rect.x = x
+        self.rect.y = y
         self.name = name

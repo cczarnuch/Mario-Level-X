@@ -149,6 +149,10 @@ def load_level_json(filename):
     with open(os.path.join('resources', 'levels', filename), 'r') as f: 
         return json.loads(f.read())
 
+def write_level_json(filename, data):
+    with open(os.path.join('resources', 'levels', filename), 'w') as f: 
+        f.write(json.dumps(data))
+
 def is_num(x):
     try:
         int(x)
