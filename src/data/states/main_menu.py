@@ -110,17 +110,17 @@ class Menu(tools._State):
         if self.cursor.state == c.PLAYER1:
             self.cursor.rect.y = 358
             if keys[pg.K_DOWN]:
-                self.cursor.state = c.MYLEVELS
+                self.cursor.state = c.EDITOR
             elif keys[pg.K_RETURN]:
                 self.next = c.LOAD_SCREEN
                 self.reset_game_info()
                 self.done = True
-        elif self.cursor.state == c.MYLEVELS:
+        elif self.cursor.state == c.EDITOR:
             self.cursor.rect.y = 403
             if keys[pg.K_UP]:
                 self.cursor.state = c.PLAYER1
             elif keys[pg.K_RETURN]:
-                self.next = c.LEVELLIST
+                self.next = c.EDITOR
                 self.reset_game_info()
                 self.done = True
 

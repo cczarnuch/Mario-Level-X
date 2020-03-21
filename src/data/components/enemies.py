@@ -31,9 +31,9 @@ class Enemy(pg.sprite.Sprite):
         self.set_velocity()
 
     def set_dimensions(self,x,y):
-        x -= self.rect.w // 2
-        y -= self.rect.h // 2
-        self.rect.y = min(c.GROUND_HEIGHT - self.rect.h, y)
+        # x -= self.rect.w // 2
+        # y -= self.rect.h // 2
+        self.rect.y = y
         self.rect.x = x
 
 

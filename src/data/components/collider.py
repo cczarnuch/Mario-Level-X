@@ -95,6 +95,6 @@ class Step(pg.sprite.Sprite):
     
     def serialize(self):
         return {
-            'x': self.x,
-            'y': self.y,
+            'x': self.rect.x,
+            'y': self.rect.y,
         }

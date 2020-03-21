@@ -148,51 +148,9 @@ class Editor(tools._State):
     def setup_checkpoints(self):
         """Creates invisible checkpoints that when collided will trigger
         the creation of enemies"""
-        #enemy x should be at least 60 apart, otherwise will collide on spawn 
-        # check1 = checkpoint.Checkpoint(510, c.GOOMBA) 
-        # check3 = checkpoint.Checkpoint(1740, c.KOOPA) 
-        #check4 = checkpoint.Checkpoint(2740, 'secret_mushroom', 360, 40, 12) todo
-        
-        #flag and castle constant
         flagpole = checkpoint.Checkpoint(198, c.FLAGPOLE, 0, 6)
         castle = checkpoint.Checkpoint(204, c.IN_CASTLE)
         self.check_point_group = pg.sprite.Group(flagpole, castle)
-
-    def check_points_check(self):
-        """Detect if checkpoint collision occurs, delete checkpoint,
-        add enemies to self.enemy_group"""
-        pass
-        #checkpoint = pg.sprite.spritecollideany(self.mario,
-        #                                         self.check_point_group)
-
-        # if checkpoint:
-        #     #remove checkpoint sprite from group
-        #     checkpoint.kill()
-
-        #     if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
-        #         if checkpoint.name == c.GOOMBA:
-        #              enemy = enemies.Goomba() 
-        #         else: 
-        #             enemy = enemies.Koopa()
-                
-        #         enemy.rect.x = self.viewport.right
-        #         self.enemy_group.add(enemy)
-
-
-        #     elif checkpoint.name == 'secret_mushroom' and self.mario.y_vel < 0:
-        #         mushroom_box = coin_box.Coin_box(checkpoint.rect.x,
-        #                                 checkpoint.rect.bottom - 40,
-        #                                 '1up_mushroom',
-        #                                 self.powerup_group)
-        #         mushroom_box.start_bump(self.moving_score_list)
-        #         self.coin_box_group.add(mushroom_box)
-
-        #         self.mario.y_vel = 7
-        #         self.mario.rect.y = mushroom_box.rect.bottom
-        #         self.mario.state = c.FALL
-
-        #     self.mario_and_enemy_group.add(self.enemy_group)
-
 
     def setup_spritegroups(self):
         """Sprite groups created for convenience"""
@@ -271,7 +229,6 @@ class Editor(tools._State):
             self.flag_score.update(None, self.game_info)
             self.check_to_add_flag_score()
         self.flag_pole_group.update()
-        self.check_points_check()
         self.enemy_group.update(self.game_info)
         self.sprites_about_to_die_group.update(self.game_info, self.viewport)
         self.shell_group.update(self.game_info)
@@ -1261,6 +1218,10 @@ class Editor(tools._State):
             color = c.GREEN if selected_item != 0 and item == selected_item else c.WHITE
             surface.blit(self.get_surface_text( str(i+1)+ '. '+ item,color,size),(50, height))
             height += size + 10
+        
+        surface.blit(self.get_surface_text( 'RIGHT CLICK TO SAVE', c.RED,20), (self.viewport.w - 500, 90))
+
+        
 
     def blit_preview(self):
         if self.selected_item != 0: 
@@ -1349,17 +1310,20 @@ class Editor(tools._State):
             self.mouse_down = True
         elif self.mouse_down and event.type == pg.MOUSEBUTTONUP and event.button == 1:
             self.on_mouse_up(event)
+        
 
 
     def handle_save(self, keys):
         mouse_keys = pg.mouse.get_pressed()
         if mouse_keys[2]:
-            print('right click')
-            self.serialize_map()
-            self.next = c.MAIN_MENU 
-            self.done = True
-            self.sound_manager.stop_music()
-            print('here')
+           self.save_and_exit()
+
+    def save_and_exit(self):
+        self.serialize_map()
+        self.next = c.MAIN_MENU 
+        self.done = True
+        self.sound_manager.stop_music()
+
 
     def serialize_map(self):
         level = {}
