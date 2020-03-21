@@ -53,8 +53,9 @@ class Level1(tools._State):
         self.setup_coin_boxes()
         self.setup_flag_pole()
         self.setup_mario()
-        self.setup_checkpoints()
         self.setup_spritegroups()
+        self.setup_checkpoints()
+        self.setup_enemies()
 
 
     def setup_background(self):
@@ -77,11 +78,6 @@ class Level1(tools._State):
     def setup_ground(self):
         """Creates collideable, invisible rectangles over top of the ground for
         sprites to walk on"""
-        # ground_rect1 = collider.Collider(0, c.GROUND_HEIGHT,    2953, 60)
-        # ground_rect2 = collider.Collider(3048, c.GROUND_HEIGHT,  635, 60)
-        # ground_rect3 = collider.Collider(3819, c.GROUND_HEIGHT, 2735, 60)
-        # ground_rect4 = collider.Collider(6647, c.GROUND_HEIGHT, 2300, 60)
-
         ground_rect1 = collider.Ground(0, c.GROUND_HEIGHT,   69)
         ground_rect2 = collider.Ground(71, c.GROUND_HEIGHT,  15)
         ground_rect3 = collider.Ground(89, c.GROUND_HEIGHT,  64)
@@ -200,16 +196,19 @@ class Level1(tools._State):
         """Creates invisible checkpoints that when collided will trigger
         the creation of enemies"""
         #flag and castle constant
-        flagpole = checkpoint.Checkpoint(198*43 + 22, c.FLAGPOLE * 43, 0, 6)
-        castle = checkpoint.Checkpoint(204*43, c.IN_CASTLE * 43)
+        flagpole = checkpoint.Checkpoint(8504, c.FLAGPOLE, 5, 6)
+        castle = checkpoint.Checkpoint(8775, c.IN_CASTLE)
+
         self.check_point_group = pg.sprite.Group(flagpole, castle)
 
-        #load enemies
+    def setup_enemies(self):
         for data in self.level_data['enemies']:
-            x, name = data['x'], data['name'].capitalize()
-            enemy = checkpoint.Checkpoint(x,name)
-            self.check_point_group.add(enemy)
-
+            x, y, name = data['x'], data['y'], data['name'].capitalize()
+            if name == c.GOOMBA:
+                enemy = enemies.Goomba(x, y) 
+            else: 
+                enemy = enemies.Koopa(x, y)
+            self.enemy_group.add(enemy)
 
     def check_points_check(self):
         """Detect if checkpoint collision occurs, delete checkpoint,
@@ -219,16 +218,7 @@ class Level1(tools._State):
         if checkpoint:
             #remove checkpoint sprite from group
             checkpoint.kill()
-
-            if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
-                if checkpoint.name == c.GOOMBA:
-                     enemy = enemies.Goomba(self.viewport.right) 
-                else: 
-                    enemy = enemies.Koopa(self.viewport.right)
-                
-                self.enemy_group.add(enemy)
-
-            elif checkpoint.name == c.FLAGPOLE:
+            if checkpoint.name == c.FLAGPOLE:
                 self.mario.state = c.FLAGPOLE
                 self.mario.invincible = False
                 self.mario.flag_pole_right = checkpoint.rect.right
@@ -268,7 +258,8 @@ class Level1(tools._State):
 
         self.ground_step_pipe_group = pg.sprite.Group(self.ground_group,
                                                       self.pipe_group,
-                                                      self.step_group)
+                                                      self.step_group,
+                                                      self.brick_group)
 
         self.mario_and_enemy_group = pg.sprite.Group(self.mario,
                                                      self.enemy_group)
