@@ -1,1 +1,1 @@
-{"data": {"pipes": [{"x": 172, "height": 322}, {"x": 516, "height": 270}, {"x": 688, "height": 212}, {"x": 344, "height": 299}], "steps": [], "bricks": [], "enemies": [], "coin_boxes": []}, "info": {"name": "Test Level", "author": "test"}}
+{"data": {"pipes": [{"x": 344, "height": 318}, {"x": 602, "height": 319}], "steps": [{"x": 301, "y": 280}, {"x": 430, "y": 280}], "bricks": [], "enemies": [{"x": 388, "y": 278, "name": "Goomba"}], "coin_boxes": []}, "info": {"name": "Test Level", "author": "test"}}

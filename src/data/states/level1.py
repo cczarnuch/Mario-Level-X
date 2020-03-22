@@ -41,7 +41,7 @@ class Level1(tools._State):
 
         # self.initiate_groups()
         
-        level = tools.load_level_json('output.json')
+        level = tools.load_level_json('default.json')
         self.level_info = level['info']
         self.level_data = level['data']
         
@@ -55,7 +55,6 @@ class Level1(tools._State):
         self.setup_mario()
         self.setup_spritegroups()
         self.setup_checkpoints()
-        self.setup_enemies()
 
 
     def setup_background(self):
@@ -198,17 +197,14 @@ class Level1(tools._State):
         #flag and castle constant
         flagpole = checkpoint.Checkpoint(8504, c.FLAGPOLE, 5, 6)
         castle = checkpoint.Checkpoint(8775, c.IN_CASTLE)
-
         self.check_point_group = pg.sprite.Group(flagpole, castle)
 
-    def setup_enemies(self):
         for data in self.level_data['enemies']:
             x, y, name = data['x'], data['y'], data['name'].capitalize()
-            if name == c.GOOMBA:
-                enemy = enemies.Goomba(x, y) 
-            else: 
-                enemy = enemies.Koopa(x, y)
-            self.enemy_group.add(enemy)
+            check_x = max(x - 2*self.viewport.w // 3, self.mario.rect.x, 0)
+            enemy_check = checkpoint.Checkpoint(check_x, name, y) 
+            enemy_check.spawn_x = x
+            self.check_point_group.add(enemy_check)
 
     def check_points_check(self):
         """Detect if checkpoint collision occurs, delete checkpoint,
@@ -218,7 +214,17 @@ class Level1(tools._State):
         if checkpoint:
             #remove checkpoint sprite from group
             checkpoint.kill()
-            if checkpoint.name == c.FLAGPOLE:
+            if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
+                print('enemy spawn')
+                spawn = checkpoint.spawn_x
+                y = checkpoint.rect.y
+                if checkpoint.name == c.GOOMBA:
+                     enemy = enemies.Goomba(spawn, y)
+                else: 
+                    enemy = enemies.Koopa(spawn,y)
+                self.enemy_group.add(enemy)
+
+            elif checkpoint.name == c.FLAGPOLE:
                 self.mario.state = c.FLAGPOLE
                 self.mario.invincible = False
                 self.mario.flag_pole_right = checkpoint.rect.right

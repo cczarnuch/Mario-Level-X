@@ -15,11 +15,5 @@ class Checkpoint(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.name = name
+        self.spawn_x = 0
 
-class GameEndCheckpoint(Checkpoint):
-    """Invisible sprite used to add enemies, special boxes
-    and trigger sliding down the flag pole"""
-    def __init__(self, x, name, y=0, width=10, height=600):
-        super(GameEndCheckpoint, self).__init__(x,y,width,height)
-        self.rect.x = x * 43 + 22
-        self.rect.y = y * 43

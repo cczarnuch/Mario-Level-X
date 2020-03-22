@@ -1343,7 +1343,7 @@ class Editor(tools._State):
         for brick in self.brick_group: data['bricks'].append(brick.serialize())
         for enemy in self.enemy_group: data['enemies'].append(enemy.serialize())
         for coin_box in self.coin_box_group: data['coin_boxes'].append(coin_box.serialize())
-        tools.write_level_json('output.json', level)
+        tools.write_level_json('default.json', level)
 
 
 def update_group(a,b):
