@@ -307,31 +307,30 @@ class Editor(tools._State):
             self.adjust_mario_for_x_collisions(brick)
 
         elif collider:
-            print('collide')
             self.adjust_mario_for_x_collisions(collider)
 
         elif enemy:
             return
-            if self.mario.invincible:
-                setup.SFX['kick'].play()
-                self.game_info[c.SCORE] += 100
-                self.moving_score_list.append(
-                    score.Score(self.mario.rect.right - self.viewport.x,
-                                self.mario.rect.y, 100))
-                enemy.kill()
-                enemy.start_death_jump(c.RIGHT)
-                self.sprites_about_to_die_group.add(enemy)
-            elif self.mario.big:
-                setup.SFX['pipe'].play()
-                self.mario.fire = False
-                self.mario.y_vel = -1
-                self.mario.state = c.BIG_TO_SMALL
-                self.convert_fireflowers_to_mushrooms()
-            elif self.mario.hurt_invincible:
-                pass
-            else:
-                self.mario.start_death_jump(self.game_info)
-                self.state = c.FROZEN
+            # if self.mario.invincible:
+            #     setup.SFX['kick'].play()
+            #     self.game_info[c.SCORE] += 100
+            #     self.moving_score_list.append(
+            #         score.Score(self.mario.rect.right - self.viewport.x,
+            #                     self.mario.rect.y, 100))
+            #     enemy.kill()
+            #     enemy.start_death_jump(c.RIGHT)
+            #     self.sprites_about_to_die_group.add(enemy)
+            # elif self.mario.big:
+            #     setup.SFX['pipe'].play()
+            #     self.mario.fire = False
+            #     self.mario.y_vel = -1
+            #     self.mario.state = c.BIG_TO_SMALL
+            #     self.convert_fireflowers_to_mushrooms()
+            # elif self.mario.hurt_invincible:
+            #     pass
+            # else:
+            #     self.mario.start_death_jump(self.game_info)
+            #     self.state = c.FROZEN
 
         elif shell:
             self.adjust_mario_for_x_shell_collisions(shell)
@@ -622,7 +621,7 @@ class Editor(tools._State):
         ground, step or box"""
         self.mario.rect.y += 1
         test_collide_group = pg.sprite.Group(self.ground_step_pipe_group,
-                                                 self.brick_group,
+                                                self.brick_group,
                                                  self.coin_box_group)
 
 
@@ -731,13 +730,11 @@ class Editor(tools._State):
                 enemy.y_vel = 7
                 enemy.rect.top = collider.rect.bottom
                 enemy.state = c.FALL
-            elif enemy.rect.bottom < collider.rect.bottom:
-
+            elif enemy.rect.bottom <= collider.rect.bottom:
                 enemy.y_vel = 0
                 enemy.rect.bottom = collider.rect.top
                 enemy.state = c.WALK
-
-        elif brick:
+        if brick:
             if brick.state == c.BUMPED:
                 enemy.kill()
                 self.sprites_about_to_die_group.add(enemy)
@@ -745,11 +742,6 @@ class Editor(tools._State):
                     enemy.start_death_jump('right')
                 else:
                     enemy.start_death_jump('left')
-
-            elif enemy.rect.x > brick.rect.x:
-                enemy.y_vel = 7
-                enemy.rect.top = brick.rect.bottom
-                enemy.state = c.FALL
             else:
                 enemy.y_vel = 0
                 enemy.rect.bottom = brick.rect.top

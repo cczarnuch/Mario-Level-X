@@ -203,6 +203,7 @@ class Level1(tools._State):
             x, y, name = data['x'], data['y'], data['name'].capitalize()
             check_x = max(x - 2*self.viewport.w // 3, self.mario.rect.x, 0)
             enemy_check = checkpoint.Checkpoint(check_x, name, y) 
+            print(check_x)
             enemy_check.spawn_x = x
             self.check_point_group.add(enemy_check)
 
@@ -215,8 +216,8 @@ class Level1(tools._State):
             #remove checkpoint sprite from group
             checkpoint.kill()
             if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
-                print('enemy spawn')
                 spawn = checkpoint.spawn_x
+                print('enemy spawn')
                 y = checkpoint.rect.y
                 if checkpoint.name == c.GOOMBA:
                      enemy = enemies.Goomba(spawn, y)
