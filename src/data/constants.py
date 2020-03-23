@@ -37,7 +37,7 @@ GROUND_HEIGHT = SCREEN_HEIGHT - 62
 #MARIO FORCES
 WALK_ACCEL = .15
 RUN_ACCEL = 20
-SMALL_TURNAROUND = .35
+SMALL_TURNAROUND = .4
 
 GRAVITY = 1.01
 JUMP_GRAVITY = .31
@@ -45,7 +45,7 @@ JUMP_VEL = -10.5
 FAST_JUMP_VEL = -12.5
 MAX_Y_VEL = 11
 
-MAX_RUN_SPEED = 800
+MAX_RUN_SPEED = 10
 MAX_WALK_SPEED = 6
 
 
@@ -179,6 +179,7 @@ MARIO_INVINCIBLE = 'mario invincible'
 PIPE = 'Pipe'
 BRICK1 = 'Normal brick'
 STEP = 'Step'
-#monstsers. do not change
+
+#monsters. do not change
 GOOMBA = 'Goomba'
 KOOPA = 'Koopa'
