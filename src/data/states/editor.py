@@ -61,7 +61,7 @@ class Editor(tools._State):
 
 
     def get_surface_text(self, text, color, size = 20):
-        font = pg.font.SysFont("comicsansms", size)
+        font = pg.font.SysFont("arial", size)
         return font.render(text, True, color)
 
     def setup_background(self):
@@ -1218,7 +1218,7 @@ class Editor(tools._State):
             color = c.GREEN if selected_item != 0 and item == selected_item else c.WHITE
             surface.blit(self.get_surface_text( str(i+1)+ '. '+ item,color,size),(50, height))
             height += size + 10
-        
+    
         surface.blit(self.get_surface_text( 'RIGHT CLICK TO SAVE', c.RED,20), (self.viewport.w - 500, 90))
 
         
