@@ -5,6 +5,8 @@ from . import setup
 from . import constants as c
 
 class Sound(object):
+    enable_sound = False
+
     """Handles all sound for the game"""
     def __init__(self, overhead_info):
         """Initialize the class"""
@@ -19,12 +21,14 @@ class Sound(object):
     def set_music_mixer(self):
         """Sets music for level"""
         if self.overhead_info.state == c.LEVEL:
-            pg.mixer.music.load(self.music_dict['main_theme'])
-            #pg.mixer.music.play()
+            if self.enable_sound:
+                pg.mixer.music.load(self.music_dict['main_theme'])
+                #pg.mixer.music.play()
             self.state = c.NORMAL
         elif self.overhead_info.state == c.GAME_OVER:
-            pg.mixer.music.load(self.music_dict['game_over'])
-            pg.mixer.music.play()
+            if self.enable_sound:
+                pg.mixer.music.load(self.music_dict['game_over'])
+                pg.mixer.music.play()
             self.state = c.GAME_OVER
 
 
@@ -41,7 +45,8 @@ class Sound(object):
                 self.play_music('death', c.MARIO_DEAD)
             elif self.mario.invincible \
                     and self.mario.losing_invincibility == False:
-                self.play_music('invincible', c.MARIO_INVINCIBLE)
+                if self.enable_sound:
+                    self.play_music('invincible', c.MARIO_INVINCIBLE)
             elif self.mario.state == c.FLAGPOLE:
                 self.play_music('flagpole', c.FLAGPOLE)
             elif self.overhead_info.time == 100:
@@ -64,7 +69,8 @@ class Sound(object):
 
         elif self.state == c. TIME_WARNING:
             if pg.mixer.music.get_busy() == 0:
-                self.play_music('main_theme_sped_up', c.SPED_UP_NORMAL)
+                if self.enable_sound:
+                    self.play_music('main_theme_sped_up', c.SPED_UP_NORMAL)
             elif self.mario.dead:
                 self.play_music('death', c.MARIO_DEAD)
 
