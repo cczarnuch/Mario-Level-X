@@ -16,4 +16,5 @@ class Checkpoint(pg.sprite.Sprite):
         self.rect.y = y
         self.name = name
         self.spawn_x = 0
+        self.spawn_y = 0
 

@@ -176,7 +176,7 @@ class Editor(tools._State):
         self.blit_everything(surface)
         self.sound_manager.update(self.game_info, self.mario)
         
-        self.handle_save(keys)
+        self.handle_save()
 
     def handle_states(self, keys):
         """If the level is in a FROZEN state, only mario will update"""
@@ -580,23 +580,6 @@ class Editor(tools._State):
     def check_if_enemy_on_brick(self, brick):
         """Kills enemy if on a bumped or broken brick"""
         brick.rect.y -= 5
-
-        enemy = pg.sprite.spritecollideany(brick, self.enemy_group)
-
-        if enemy:
-            setup.SFX['kick'].play()
-            self.game_info[c.SCORE] += 100
-            self.moving_score_list.append(
-                score.Score(enemy.rect.centerx - self.viewport.x,
-                            enemy.rect.y,
-                            100))
-            enemy.kill()
-            self.sprites_about_to_die_group.add(enemy)
-            if self.mario.rect.centerx > brick.rect.centerx:
-                enemy.start_death_jump('right')
-            else:
-                enemy.start_death_jump('left')
-
         brick.rect.y += 5
 
 
@@ -735,41 +718,13 @@ class Editor(tools._State):
                 enemy.rect.bottom = collider.rect.top
                 enemy.state = c.WALK
         if brick:
-            if brick.state == c.BUMPED:
-                enemy.kill()
-                self.sprites_about_to_die_group.add(enemy)
-                if self.mario.rect.centerx > brick.rect.centerx:
-                    enemy.start_death_jump('right')
-                else:
-                    enemy.start_death_jump('left')
-            else:
-                enemy.y_vel = 0
-                enemy.rect.bottom = brick.rect.top
-                enemy.state = c.WALK
-
+            enemy.y_vel = 0
+            enemy.rect.bottom = brick.rect.top
+            enemy.state = c.WALK
         elif coin_box:
-            if coin_box.state == c.BUMPED:
-                self.game_info[c.SCORE] += 100
-                self.moving_score_list.append(
-                    score.Score(enemy.rect.centerx - self.viewport.x,
-                                enemy.rect.y, 100))
-                enemy.kill()
-                self.sprites_about_to_die_group.add(enemy)
-                if self.mario.rect.centerx > coin_box.rect.centerx:
-                    enemy.start_death_jump('right')
-                else:
-                    enemy.start_death_jump('left')
-
-            elif enemy.rect.x > coin_box.rect.x:
-                enemy.y_vel = 7
-                enemy.rect.top = coin_box.rect.bottom
-                enemy.state = c.FALL
-            else:
-                enemy.y_vel = 0
-                enemy.rect.bottom = coin_box.rect.top
-                enemy.state = c.WALK
-
-
+            enemy.y_vel = 0
+            enemy.rect.bottom = coin_box.rect.top
+            enemy.state = c.WALK
         else:
             enemy.rect.y += 1
             test_group = pg.sprite.Group(self.ground_step_pipe_group,
@@ -1042,15 +997,7 @@ class Editor(tools._State):
     def delete_if_off_screen(self, enemy):
         """Removes enemy from sprite groups if 500 pixels left off the screen,
          underneath the bottom of the screen, or right of the screen if shell"""
-        if enemy.rect.x < (self.viewport.x - 300):
-            enemy.kill()
-
-        elif enemy.rect.y > (self.viewport.bottom):
-            enemy.kill()
-
-        elif enemy.state == c.SHELL_SLIDE:
-            if enemy.rect.x > (self.viewport.right + 500):
-                enemy.kill()
+        pass
 
 
     def check_flag(self):
@@ -1305,7 +1252,7 @@ class Editor(tools._State):
         
 
 
-    def handle_save(self, keys):
+    def handle_save(self):
         mouse_keys = pg.mouse.get_pressed()
         if mouse_keys[2]:
            self.save_and_exit()
