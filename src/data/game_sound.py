@@ -5,7 +5,7 @@ from . import setup
 from . import constants as c
 
 class Sound(object):
-    enable_sound = False
+    enable_sound = True
 
     """Handles all sound for the game"""
     def __init__(self, overhead_info):
