@@ -201,9 +201,11 @@ class Level1(tools._State):
 
         for data in self.level_data['enemies']:
             x, y, name = data['x'], data['y'], data['name'].capitalize()
-            check_x = max(x - 2*self.viewport.w // 3, self.mario.rect.x, 0)
-            enemy_check = checkpoint.Checkpoint(check_x, name, y) 
+            check_x = max(x - 2*self.viewport.w // 3, self.mario.rect.x)
+            if(x < self.viewport.right): check_x = self.mario.rect.x
+            enemy_check = checkpoint.Checkpoint(check_x, name, 0, 10, c.SCREEN_HEIGHT)
             enemy_check.spawn_x = x
+            enemy_check.spawn_y = y
             self.check_point_group.add(enemy_check)
 
     def check_points_check(self):
@@ -215,13 +217,12 @@ class Level1(tools._State):
             #remove checkpoint sprite from group
             checkpoint.kill()
             if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
-                print('enemy spawn')
-                spawn = checkpoint.spawn_x
-                y = checkpoint.rect.y
+                print('spawn')
+                spawn_x, spawn_y = checkpoint.spawn_x, checkpoint.spawn_y
                 if checkpoint.name == c.GOOMBA:
-                     enemy = enemies.Goomba(spawn, y)
+                     enemy = enemies.Goomba(spawn_x, spawn_y)
                 else: 
-                    enemy = enemies.Koopa(spawn,y)
+                    enemy = enemies.Koopa(spawn_x,spawn_y)
                 self.enemy_group.add(enemy)
 
             elif checkpoint.name == c.FLAGPOLE:
@@ -278,8 +279,17 @@ class Level1(tools._State):
         self.check_if_time_out()
         self.blit_everything(surface)
         self.sound_manager.update(self.game_info, self.mario)
+        self.handle_exit(keys)
 
 
+    def handle_exit(self, keys):
+        if keys[pg.K_ESCAPE]:
+           self.save_and_exit()
+
+    def save_and_exit(self):
+        self.next = c.MAIN_MENU 
+        self.done = True
+        self.sound_manager.stop_music()
 
     def handle_states(self, keys):
         """If the level is in a FROZEN state, only mario will update"""
@@ -1303,7 +1313,7 @@ class Level1(tools._State):
         self.coin_box_group.draw(self.level)
         self.sprites_about_to_die_group.draw(self.level)
         self.shell_group.draw(self.level)
-        #self.check_point_group.draw(self.level)
+        # self.check_point_group.draw(self.level)
         self.brick_pieces_group.draw(self.level)
         self.flag_pole_group.draw(self.level)
         self.mario_and_enemy_group.draw(self.level)
