@@ -33,21 +33,21 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="Development Plan" color="#8cb6ce" meeting="false" start="2020-01-29" duration="3" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true">
+        <task id="0" name="Development Plan" color="#8cb6ce" meeting="false" start="2020-01-29" duration="3" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true">
             <depend id="8" type="2" difference="0" hardness="Strong"/>
-            <task id="28" name="coding stye, project schedule, review" color="#8cb6ce" meeting="false" start="2020-01-29" duration="1" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-            <task id="30" name="meeting plan, communication, roles" color="#8cb6ce" meeting="false" start="2020-01-30" duration="1" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-            <task id="31" name="git, proof of concept, technology" color="#8cb6ce" meeting="false" start="2020-01-31" duration="1" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+            <task id="28" name="coding stye, project schedule, review" color="#8cb6ce" meeting="false" start="2020-01-29" duration="1" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+            <task id="30" name="meeting plan, communication, roles" color="#8cb6ce" meeting="false" start="2020-01-30" duration="1" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+            <task id="31" name="git, proof of concept, technology" color="#8cb6ce" meeting="false" start="2020-01-31" duration="1" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="8" name="Requirements Document Revision 0" color="#8cb6ce" meeting="false" start="2020-02-03" duration="6" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true">
-            <task id="39" name="Project Issues" color="#8cb6ce" meeting="false" start="2020-02-07" duration="2" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
-            <task id="43" name="Functional and non functional req." color="#8cb6ce" meeting="false" start="2020-02-05" duration="2" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
-            <task id="41" name="Project Drivers" color="#8cb6ce" meeting="false" start="2020-02-03" duration="2" complete="0" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
+        <task id="8" name="Requirements Document Revision 0" color="#8cb6ce" meeting="false" start="2020-02-03" duration="6" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true">
+            <task id="39" name="Project Issues" color="#8cb6ce" meeting="false" start="2020-02-07" duration="2" complete="100" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
+            <task id="43" name="Functional and non functional req." color="#8cb6ce" meeting="false" start="2020-02-05" duration="2" complete="100" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
+            <task id="41" name="Project Drivers" color="#8cb6ce" meeting="false" start="2020-02-03" duration="2" complete="100" thirdDate="2020-02-10" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="10" name="Proof of Concept Demonstration" color="#8cb6ce" meeting="false" start="2020-02-11" duration="3" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-        <task id="12" name="Test Plan Revision 0" color="#8cb6ce" meeting="false" start="2020-02-14" duration="11" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-        <task id="13" name="Design &amp; Document Revision 0" color="#8cb6ce" meeting="false" start="2020-02-14" duration="21" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-        <task id="14" name="Revision 0 Demonstration" color="#8cb6ce" meeting="false" start="2020-02-14" duration="28" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="10" name="Proof of Concept Demonstration" color="#8cb6ce" meeting="false" start="2020-02-11" duration="3" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="12" name="Test Plan Revision 0" color="#8cb6ce" meeting="false" start="2020-02-14" duration="11" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="13" name="Design &amp; Document Revision 0" color="#8cb6ce" meeting="false" start="2020-02-14" duration="21" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="14" name="Revision 0 Demonstration" color="#8cb6ce" meeting="false" start="2020-02-14" duration="28" complete="100" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
         <task id="16" name="Final Demonstration (Revision 1)" color="#8cb6ce" meeting="false" start="2020-03-25" duration="4" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
         <task id="17" name="Peer Eval of Other Teams Final Demo" color="#8cb6ce" meeting="false" start="2020-03-31" duration="4" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
         <task id="18" name="Final Documentation (Revision 1)" color="#8cb6ce" meeting="false" start="2020-03-31" duration="5" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
