@@ -47,9 +47,9 @@
         <task id="10" name="Proof of Concept Demonstration" color="#8cb6ce" meeting="false" start="2020-02-11" duration="3" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
         <task id="12" name="Test Plan Revision 0" color="#8cb6ce" meeting="false" start="2020-02-14" duration="11" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
         <task id="13" name="Design &amp; Document Revision 0" color="#8cb6ce" meeting="false" start="2020-02-14" duration="21" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-        <task id="14" name="Revision 0 Demonstration" color="#8cb6ce" meeting="false" start="2020-02-14" duration="22" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-        <task id="16" name="Final Demonstration (Revision 1)" color="#8cb6ce" meeting="false" start="2020-03-17" duration="10" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
-        <task id="17" name="Peer Eval of Other Teams Final Demo" color="#8cb6ce" meeting="false" start="2020-03-30" duration="1" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="14" name="Revision 0 Demonstration" color="#8cb6ce" meeting="false" start="2020-02-14" duration="28" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="16" name="Final Demonstration (Revision 1)" color="#8cb6ce" meeting="false" start="2020-03-25" duration="4" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
+        <task id="17" name="Peer Eval of Other Teams Final Demo" color="#8cb6ce" meeting="false" start="2020-03-31" duration="4" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
         <task id="18" name="Final Documentation (Revision 1)" color="#8cb6ce" meeting="false" start="2020-03-31" duration="5" complete="0" thirdDate="2020-01-29" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources>
@@ -61,12 +61,24 @@
         <allocation task-id="28" resource-id="0" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="41" resource-id="0" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="10" resource-id="0" function="Default:0" responsible="true" load="33.0"/>
+        <allocation task-id="12" resource-id="0" function="Default:0" responsible="true" load="33.0"/>
+        <allocation task-id="13" resource-id="0" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="14" resource-id="0" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="8" resource-id="0" function="Default:0" responsible="true" load="33.0"/>
         <allocation task-id="30" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="39" resource-id="1" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="10" resource-id="1" function="Default:0" responsible="true" load="33.0"/>
+        <allocation task-id="12" resource-id="1" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="13" resource-id="1" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="14" resource-id="1" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="8" resource-id="1" function="Default:0" responsible="false" load="33.0"/>
         <allocation task-id="31" resource-id="2" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="43" resource-id="2" function="Default:0" responsible="true" load="30.0"/>
         <allocation task-id="10" resource-id="2" function="Default:0" responsible="true" load="33.0"/>
+        <allocation task-id="12" resource-id="2" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="13" resource-id="2" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="14" resource-id="2" function="Default:0" responsible="false" load="33.0"/>
+        <allocation task-id="8" resource-id="2" function="Default:0" responsible="false" load="33.0"/>
     </allocations>
     <vacations/>
     <previous/>
