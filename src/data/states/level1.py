@@ -18,9 +18,10 @@ from .. components import castle_flag
 
 
 class Level1(tools._State):
-    def __init__(self):
+    def __init__(self, selected_level):
         tools._State.__init__(self)
-
+        self.selected_level = selected_level #dict
+    
     def startup(self, current_time, persist):
         """Called when the State object is created"""
         self.game_info = persist
@@ -40,8 +41,8 @@ class Level1(tools._State):
         self.sound_manager = game_sound.Sound(self.overhead_info_display)
 
         # self.initiate_groups()
-        
-        level = tools.load_level_json('default.json')
+        levelname = self.selected_level['level']
+        level = tools.load_level_json(levelname)
         self.level_info = level['info']
         self.level_data = level['data']
         
@@ -217,7 +218,6 @@ class Level1(tools._State):
             #remove checkpoint sprite from group
             checkpoint.kill()
             if checkpoint.name == c.GOOMBA or checkpoint.name == c.KOOPA:
-                print('spawn')
                 spawn_x, spawn_y = checkpoint.spawn_x, checkpoint.spawn_y
                 if checkpoint.name == c.GOOMBA:
                      enemy = enemies.Goomba(spawn_x, spawn_y)

@@ -61,8 +61,7 @@ class Editor(tools._State):
 
 
     def get_surface_text(self, text, color, size = 20):
-        font = pg.font.SysFont("arial", size)
-        return font.render(text, True, color)
+        return tools.get_surface_text(text, color, size)
 
     def setup_background(self):
         """Sets the background image, rect and scales it to the correct
@@ -1076,7 +1075,6 @@ class Editor(tools._State):
             newcamera = self.viewport.x + 0.8 * self.viewport.w
             self.viewport.x = min(highest, newcamera)
         elif self.viewport.x > 0 and self.mario.x_vel < 0 and mario_center <= screen_left:
-            #print('adjust left')
             newcamera = self.viewport.x - 0.8 * self.viewport.w
             self.viewport.x = max(0, newcamera)
 

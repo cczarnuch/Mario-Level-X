@@ -30,12 +30,12 @@ class Enemy(pg.sprite.Sprite):
         self.set_dimensions(x,y)
         self.set_velocity()
 
+
     def set_dimensions(self,x,y):
         # x -= self.rect.w // 2
         # y -= self.rect.h // 2
         self.rect.y = y
         self.rect.x = x
-
 
     def set_velocity(self):
         """Sets velocity vector based on direction"""
