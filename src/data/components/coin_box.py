@@ -2,6 +2,7 @@ __author__ = 'justinarmstrong'
 
 import pygame as pg
 from .. import setup
+from .. import tools
 from .. import constants as c
 from . import powerups
 from . import coin
@@ -18,24 +19,32 @@ class Coin_box(pg.sprite.Sprite):
         self.frame_index = 0
         self.image = self.frames[self.frame_index]
         self.rect = self.image.get_rect()
-        self.rect.x = x * 43
-        self.rect.y = y * 43 - 22
+
+        self.set_dimensions(x,y)
         self.mask = pg.mask.from_surface(self.image)
         self.animation_timer = 0
         self.first_half = True   # First half of animation cycle
         self.state = c.RESTING
-        self.rest_height = self.rect.y
         self.gravity = 1.2
         self.y_vel = 0
         self.contents = contents
         self.group = group
 
 
+    def set_dimensions(self,x,y):
+        x -= self.rect.w // 2
+        y -= self.rect.h // 2
+        self.rect.x = tools.round_to_multiple(x, self.rect.w)
+        refy = max(0,tools.round_to_multiple(c.GROUND_HEIGHT - y, self.rect.h))
+        self.rect.y = c.GROUND_HEIGHT - refy
+        #return y after bounce
+        self.rest_height = self.rect.y
+
     def serialize(self):
         return {
             'x': self.rect.x,
             'y': self.rect.y,
-            'content': self.contents
+            'contents': self.contents
         }
 
     def get_image(self, x, y, width, height):

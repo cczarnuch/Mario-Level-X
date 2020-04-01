@@ -179,6 +179,8 @@ MARIO_INVINCIBLE = 'mario invincible'
 PIPE = 'Pipe'
 BRICK1 = 'Normal brick'
 STEP = 'Step'
+MUSHROOM_BOX = 'Mushroom Box'
+COIN_BOX = 'Coin Box'
 
 #monsters. do not change
 GOOMBA = 'Goomba'
