@@ -295,12 +295,9 @@ class OverheadInfo(object):
 
     def update_count_down_clock(self, level_info):
         """Updates current time"""
-        if self.state == c.FAST_COUNT_DOWN:
-            self.time -= 1
-
-        elif (level_info[c.CURRENT_TIME] - self.current_time) > 400:
+        if (level_info[c.CURRENT_TIME] - self.current_time) > 400:
             self.current_time = level_info[c.CURRENT_TIME]
-            self.time -= 1
+            # self.time -= 1
         self.count_down_images = []
         self.create_label(self.count_down_images, str(self.time), 645, 55)
         if len(self.count_down_images) < 2:

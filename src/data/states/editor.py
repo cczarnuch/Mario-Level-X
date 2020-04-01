@@ -42,7 +42,7 @@ class Editor(tools._State):
         self.sound_manager = game_sound.Sound(self.overhead_info_display)
 
         self.selected_item = 0
-        self.items = [c.PIPE, c.BRICK1, c.STEP, c.GOOMBA, c.KOOPA]
+        self.items = [c.PIPE, c.BRICK1, c.STEP,c.COIN_BOX, c.MUSHROOM_BOX, c.GOOMBA, c.KOOPA]
         self.selected_item_sprite = None
         self.num_items = len(self.items) 
         self.item_text = self.get_surface_text(c.PIPE,c.GREEN)
@@ -515,18 +515,6 @@ class Editor(tools._State):
     def adjust_mario_for_y_coin_box_collisions(self, coin_box):
         """Mario collisions with coin boxes on the y-axis"""
         if self.mario.rect.y > coin_box.rect.y:
-            if coin_box.state == c.RESTING:
-                if coin_box.contents == c.COIN:
-                    self.game_info[c.SCORE] += 200
-                    coin_box.start_bump(self.moving_score_list)
-                    if coin_box.contents == c.COIN:
-                        self.game_info[c.COIN_TOTAL] += 1
-                else:
-                    coin_box.start_bump(self.moving_score_list)
-
-            elif coin_box.state == c.OPENED:
-                pass
-            setup.SFX['bump'].play()
             self.mario.y_vel = 7
             self.mario.rect.y = coin_box.rect.bottom
             self.mario.state = c.FALL
@@ -1194,14 +1182,18 @@ class Editor(tools._State):
             map_group = self.step_group
             collison_group = self.ground_step_pipe_group
             new_sprite = collider.Step(x,y)
+        elif selected_item == c.MUSHROOM_BOX or selected_item == c.COIN_BOX:
+            map_group = self.coin_box_group
+            new_sprite = coin_box.Coin_box(x,y)
+            if selected_item == c.MUSHROOM_BOX: new_sprite.contents = 'mushroom'
+            else: new_sprite.group = self.coin_group
+
         elif selected_item == c.GOOMBA:
             map_group = self.enemy_group
             new_sprite = enemies.Goomba(x,y)
-            pass
         elif selected_item == c.KOOPA:
             new_sprite = enemies.Koopa(x,y)
             map_group = self.enemy_group
-            pass
 
         self.item_preview_group.remove(preview_sprite)
         map_group.add(preview_sprite)
@@ -1225,12 +1217,19 @@ class Editor(tools._State):
                 x,y = pos[0] + self.viewport.x, pos[1] 
                 self.item_preview_group.empty()
                 if selected_item == c.PIPE:
-                    self.item_preview_group.empty()
                     self.selected_item_sprite = collider.Pipe(x,y)
                 elif selected_item == c.BRICK1:
                     self.selected_item_sprite = bricks.Brick(x,y)
                 elif selected_item == c.STEP:
                     self.selected_item_sprite = collider.Step(x,y)
+                elif selected_item == c.MUSHROOM_BOX or selected_item == c.COIN_BOX:
+                    sp = coin_box.Coin_box(x,y)
+                    if selected_item == c.MUSHROOM_BOX: 
+                        sp.contents = 'mushroom'
+                        sp.group = self.powerup_group
+                    else: sp.group = self.coin_group
+                    self.selected_item_sprite = sp
+
                 elif selected_item == c.GOOMBA:
                     self.selected_item_sprite = enemies.Goomba(x,y)
                 elif selected_item == c.KOOPA:
@@ -1248,8 +1247,6 @@ class Editor(tools._State):
         elif self.mouse_down and event.type == pg.MOUSEBUTTONUP and event.button == 1:
             self.on_mouse_up(event)
         
-
-
     def handle_save(self):
         mouse_keys = pg.mouse.get_pressed()
         if mouse_keys[2]:
