@@ -3,6 +3,7 @@ __author__ = 'justinarmstrong'
 import os
 import pygame as pg
 import json
+import glob
 
 keybinding = {
     'action':pg.K_s,
@@ -149,6 +150,12 @@ def load_level_json(filename):
     with open(os.path.join('resources', 'levels', filename), 'r') as f: 
         return json.loads(f.read())
 
+def get_level_list():
+    directory = os.path.join('resources', 'levels', '*.json')
+    res = list(map(os.path.basename, glob.glob(directory)))
+    return res
+
+
 def write_level_json(filename, data):
     with open(os.path.join('resources', 'levels', filename), 'w') as f: 
         f.write(json.dumps(data))
@@ -162,3 +169,7 @@ def is_num(x):
 
 def round_to_multiple(x, base):  
     return base * round(x/base)
+
+def get_surface_text(text, color, size = 20):
+    font = pg.font.SysFont("arial", size)
+    return font.render(text, True, color)

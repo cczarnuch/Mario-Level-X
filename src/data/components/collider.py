@@ -35,7 +35,6 @@ class Pipe(pg.sprite.Sprite):
         self.image = pipe_bottom
         self.rect = self.image.get_rect()
         self.rect.y = height
-        x -= self.rect.w // 2
         self.rect.x = tools.round_to_multiple(x, self.rect.w)
         
     def serialize(self):

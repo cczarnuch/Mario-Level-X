@@ -101,7 +101,6 @@ class Brick(pg.sprite.Sprite):
         self.rect.y += self.y_vel
         self.y_vel += self.gravity
 
-        print(self.rect.y, self.rest_height)
         if self.rect.y >= self.rest_height:
             self.rect.y = self.rest_height
             if self.contents == 'star':

@@ -27,7 +27,7 @@ class OverheadInfo(object):
         self.state = state
         self.special_state = None
         self.game_info = game_info
-
+        self.top = None
         self.create_image_dict()
         self.create_score_group()
         self.create_info_labels()
@@ -87,8 +87,6 @@ class OverheadInfo(object):
 
         image_list.append(self.get_image(68, 249, 6, 2))
         image_list.append(self.get_image(75, 247, 6, 6))
-
-
 
         character_string = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ -*'
 
@@ -223,7 +221,7 @@ class OverheadInfo(object):
         self.create_label(player_two_game, 'LEVELS', 272, 405)
         self.create_label(top, 'TOP - ', 290, 465)
         self.create_label(top_score, '000000', 400, 465)
-
+        self.top = top
         self.main_menu_labels = [player_one_game, player_two_game,
                                  top, top_score]
 
@@ -239,7 +237,8 @@ class OverheadInfo(object):
         if self.state == c.MAIN_MENU:
             self.score = level_info[c.SCORE]
             self.update_score_images(self.score_images, self.score)
-            self.update_score_images(self.main_menu_labels[3], self.top_score)
+            if self.top:
+                self.update_score_images(self.top, self.top_score)
             self.update_coin_total(level_info)
             self.flashing_coin.update(level_info[c.CURRENT_TIME])
 
@@ -351,8 +350,6 @@ class OverheadInfo(object):
             self.draw_time_out_screen_info(surface)
         else:
             pass
-
-
 
     def draw_main_menu_info(self, surface):
         """Draws info for main menu"""
