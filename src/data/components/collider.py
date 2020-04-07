@@ -35,7 +35,7 @@ class Pipe(pg.sprite.Sprite):
 
 
     ## @brief sets the x and height values of the screen
-    #  @parm x x-pixel coordinate 
+    #  @param x x-pixel coordinate 
     # #  @param height number of pixels above the ground 
     def set_dimensions(self, x, height):
         pipe_bottom = self.pipe_bottom
@@ -108,8 +108,8 @@ class Step(pg.sprite.Sprite):
     
 
     ## @brief sets the x and height values of the screen
-    #  @parm x x-pixel coordinate 
-    #  @parm y y-pixel coordinate 
+    #  @param x x-pixel coordinate 
+    #  @param y y-pixel coordinate 
     def set_dimensions(self,x,y):
         x -= self.rect.w // 2
         y -= self.rect.h // 2

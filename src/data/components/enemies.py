@@ -35,8 +35,8 @@ class Enemy(pg.sprite.Sprite):
 
 
     ## @brief sets the x and y values of the screen
-    #  @parm x x-pixel coordinate 
-    #  @parm y y-pixel coordinate 
+    #  @param x x-pixel coordinate 
+    #  @param y y-pixel coordinate 
     def set_dimensions(self,x,y):
         self.rect.y = y
         self.rect.x = x
