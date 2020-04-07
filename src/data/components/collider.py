@@ -1,3 +1,6 @@
+## @file collider.py
+#  @title Collider Classes
+
 __author__ = 'justinarmstrong'
 
 import pygame as pg
@@ -17,14 +20,23 @@ class Collider(pg.sprite.Sprite):
         self.rect.y = y * 43 - 22
         self.state = None
 
+
+## @brief A class to represent a Pipe
 class Pipe(pg.sprite.Sprite):
-    """Moveable Pipes"""
+    ## @brief Pipe Constructor
+    #  @details intializes Pipe component
+    #  @param x x-pixel coordinate 
+    #  @param height number of pixels above the ground 
     def __init__(self, x, height):
         pg.sprite.Sprite.__init__(self)
         self.pipe_bottom = setup.GFX['pipe_bottom']
         self.pipe_top = setup.GFX['pipe_top']
         self.set_dimensions(x,height)
 
+
+    ## @brief sets the x and height values of the screen
+    #  @parm x x-pixel coordinate 
+    # #  @param height number of pixels above the ground 
     def set_dimensions(self, x, height):
         pipe_bottom = self.pipe_bottom
         pipe_top = self.pipe_top
@@ -37,6 +49,9 @@ class Pipe(pg.sprite.Sprite):
         self.rect.y = height
         self.rect.x = tools.round_to_multiple(x, self.rect.w)
         
+
+    ## @brief Gets object x and height values as dictionary
+    #  @return dictionary object with the x,height key values
     def serialize(self):
         return {
             "x": self.rect.x,
@@ -44,8 +59,13 @@ class Pipe(pg.sprite.Sprite):
         }
 
 
+## @brief A class to represent a Ground
 class Ground(pg.sprite.Sprite):
-    """Invisible ground platform"""
+    ## @brief Ground
+    #  @details intializes Ground component
+    #  @param x x-pixel coordinate 
+    #  @param y y-pixel coordinate 
+    #  @param width pixel width of ground 
     def __init__(self, x, y, width):
         pg.sprite.Sprite.__init__(self)
         self.image = pg.Surface((width*43, 60)).convert()
@@ -55,20 +75,23 @@ class Ground(pg.sprite.Sprite):
         self.rect.y = y
         self.state = None
 
+
+    ## @brief Gets dictionary with ground data
+    #  @return dictionary object with the start x,y,width key values
     def serialize(self):
         return{
-            "xStart": 0,
-            "xEnd": 69
+            "x": self.rect.x,
+            "y": self.rect.y,
+            "width": self.rect.w
         }
 
-class Hole:
-    def __init__(self, x1,x2):
-        self.x1 = x1
-        self.x2 = x2
 
-
+## @brief A class to represent a Step
 class Step(pg.sprite.Sprite):
-    """Step blocks"""
+    ## @brief Step Constructor
+    #  @details intializes Step component
+    #  @param x x-pixel coordinate 
+    #  @param y y-pixel coordinate 
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -84,6 +107,9 @@ class Step(pg.sprite.Sprite):
         self.state = None
     
 
+    ## @brief sets the x and height values of the screen
+    #  @parm x x-pixel coordinate 
+    #  @parm y y-pixel coordinate 
     def set_dimensions(self,x,y):
         x -= self.rect.w // 2
         y -= self.rect.h // 2
@@ -91,7 +117,8 @@ class Step(pg.sprite.Sprite):
         refy = max(0,tools.round_to_multiple(c.GROUND_HEIGHT - y, self.rect.h))
         self.rect.y = c.GROUND_HEIGHT - refy
     
-    
+    ## @brief Gets dictionary with step data
+    #  @return dictionary object with the start x,y key values
     def serialize(self):
         return {
             'x': self.rect.x,

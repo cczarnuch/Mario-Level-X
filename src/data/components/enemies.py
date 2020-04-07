@@ -1,3 +1,5 @@
+## @file enemies.py
+#  @title Enemy Classes
 __author__ = 'justinarmstrong'
 
 
@@ -6,6 +8,7 @@ from .. import setup, tools
 from .. import constants as c
 
 
+## @brief Abstract class to represent an Enemy
 class Enemy(pg.sprite.Sprite):
     """Base class for all enemies (Goombas, Koopas, etc.)"""
     def __init__(self):
@@ -31,12 +34,14 @@ class Enemy(pg.sprite.Sprite):
         self.set_velocity()
 
 
+    ## @brief sets the x and y values of the screen
+    #  @parm x x-pixel coordinate 
+    #  @parm y y-pixel coordinate 
     def set_dimensions(self,x,y):
-        # x -= self.rect.w // 2
-        # y -= self.rect.h // 2
         self.rect.y = y
         self.rect.x = x
 
+    ## @brief calculate velocity of enemy
     def set_velocity(self):
         """Sets velocity vector based on direction"""
         if self.direction == c.LEFT:
@@ -76,6 +81,7 @@ class Enemy(pg.sprite.Sprite):
             self.death_jumping()
 
 
+    ## @brief process enemy walking
     def walking(self):
         """Default state of moving sideways"""
         if (self.current_time - self.animate_timer) > 125:
@@ -87,12 +93,14 @@ class Enemy(pg.sprite.Sprite):
             self.animate_timer = self.current_time
 
 
+    ## @brief process enemy falling
     def falling(self):
         """For when it falls off a ledge"""
         if self.y_vel < 10:
             self.y_vel += self.gravity
 
 
+    ## @brief process enemy jumped on. Abstract
     def jumped_on(self):
         """Placeholder for when the enemy is stomped on"""
         pass
@@ -132,6 +140,9 @@ class Enemy(pg.sprite.Sprite):
         self.handle_state()
         self.animation()
 
+
+    ## @brief Gets enemy data as dictionary
+    #  @return dictionary object with the x,y,name key values
     def serialize(self):
         return {
             'x': self.rect.x,
@@ -140,6 +151,7 @@ class Enemy(pg.sprite.Sprite):
         }
 
 
+## @brief SubClass of Enemy to represent a Goomba
 class Goomba(Enemy):
 
     def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='Goomba'):
@@ -167,7 +179,7 @@ class Goomba(Enemy):
             self.kill()
 
 
-
+## @brief SubClass of Enemy to represent a Koopa
 class Koopa(Enemy):
 
     def __init__(self,x, y=c.GROUND_HEIGHT, direction=c.LEFT, name='Koopa'):

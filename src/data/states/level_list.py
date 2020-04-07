@@ -5,8 +5,8 @@ from .. import setup, tools
 from .. import constants as c
 from .. components import info, mario
 
-
 class LevelList(tools._State):
+
     def __init__(self):
         """Initializes the state"""
         tools._State.__init__(self)
@@ -93,7 +93,6 @@ class LevelList(tools._State):
         rect.y = dest[1]
         return (image, rect)
 
-
     def update(self, surface, keys, current_time):
         """Updates the state every refresh"""
         self.current_time = current_time
@@ -104,6 +103,7 @@ class LevelList(tools._State):
         surface.blit(self.mario.image, self.mario.rect)
         surface.blit(self.cursor.image, self.cursor.rect)
         self.draw_level_list(surface)
+
 
     def draw_level_list(self,surface):
         x,y = 180,130
