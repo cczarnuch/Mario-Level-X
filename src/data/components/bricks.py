@@ -44,8 +44,8 @@ class Brick(pg.sprite.Sprite):
         self.powerup_in_box = True
 
     ## @brief sets the x and y values of the screen
-    #  @parm x x-pixel coordinate 
-    #  @parm x y-pixel coordinate 
+    #  @param x x-pixel coordinate 
+    #  @param x y-pixel coordinate 
     def set_dimensions(self,x,y):
         x -= self.rect.w // 2
         y -= self.rect.h // 2
