@@ -2,7 +2,9 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{ulem}
 \usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -38,6 +40,8 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 Feb. 28, 2020 & 0.0 & Initial revision of this document\\
+\bottomrule\\
+\color{red}Apr. 6, 2020\color{black} & \color{red}1.0\color{black} & \color{red}Final revision of this document, implementing feedback\color{black}\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -95,20 +99,20 @@ This document will consist of test cases based off the requirements derived from
 Mario-Level-X is a re-implementation of Mario-Level-1 that separates the level data rendering from the game functionalities. By rendering the level data from an external source, we can provide a UI for players to edit and save their levels.
 
 \subsection{Test Team}
-The members responsible for testing are Edward Liu, Ahmed Gharib, and Connor Czarnuch.
+The members responsible for testing are Edward Liu, Ahmad Gharib, and Connor Czarnuch.
 
 \subsection{Automated Testing Approach}
-To implement automated unit testing, we will write tests using the unittest python library for our modules, and create scripts that runs every test case. We will run tests after each major commit to ensure that the software remains correct.
+To implement automated unit testing, we will write tests using the unit-test python library for our modules, and create scripts that runs every test case. We will run tests after each major commit to ensure that the software remains correct.
 
 \subsection{Testing Tools}
-Testing tools we will use is the unittest standard library for python.
+Testing tools we will use is the unit-test standard library for python.
 
 \subsection{Testing Schedule}
 
 \begin{tabular}[pos]{|c|c|c|}
 \hline
 \textbf{Member}& \textbf{Task} & \textbf{Date} \\ \hline
-Ahmed & Menu & 03/02/2020\\ \hline
+Ahmad & Menu & 03/02/2020\\ \hline
 Connor & Level Editor & 03/15/2020\\ \hline
 Edward & Level Player & 03/20/2020\\ \hline
 \end{tabular}
@@ -116,7 +120,12 @@ Edward & Level Player & 03/20/2020\\ \hline
 \newpage
 
 \section{System Test Description}
-	
+
+\color{red}
+\subsection{Parallel Testing}
+Listed below in the next section are various system tests to be implemented in order to ensure that our system is robust and meets both our functional and non-functional requirements. We incorporate the usage of unit tests, and also will perform tests concurrently in the form of parallel testing. There are three distinct sections that can be tested at the same time (Menu, Level Player, and Level Editor). Each of the group members can test one of these sections, and report the results in order to save time testing.
+
+\color{black}	
 \subsection{Tests for Functional Requirements}
 
 \subsubsection{Menu}
@@ -130,11 +139,11 @@ Type: Functional, Dynamic, Manual
 					
 Initial State: Main Menu Screen
 					
-Input: User presses enter on "1 player game" menu option
+Input: User presses enter on \color{Red}\sout{``1 player game"}``Play" \color{Black} menu option
 					
 Output: Game loads into the game-screen and is displayed on screen
 					
-How test will be performed: The game will be run and the "1 player game" option is selected to ensure that it works properly (user loads into the game).
+How test will be performed: The game will be run and the \color{Red}\sout{``1 player game"}``Play"\color{Black} option is selected to ensure that it works properly (user loads into the game).
 					
 \item{FR-M-2}
 
@@ -142,11 +151,11 @@ Type: Functional, Dynamic, Manual
 					
 Initial State: Main Menu Screen
 					
-Input: User presses enter on "Edit Levels" menu option
+Input: User presses enter on \color{Red}\sout{``Edit Levels"}``Levels" \color{Black} menu option
 					
 Output: Game loads into the level select UI.
 					
-How test will be performed: Tester will launch game, select "Edit Levels", and should be redirected to the level select.
+How test will be performed: Tester will launch game, select \color{Red}\sout{``Edit Levels"}``Levels"\color{Black}, and should be redirected to the level select.
 
 \item{FR-M-3}
 
@@ -158,7 +167,7 @@ Input: User presses on the level to edit in the level select screen.
 
 Output: The selected level loads.
 
-How test will be performed: Tester will launch game, select "Edit Levels", and should be redirected to the level that is selected.
+How test will be performed: Tester will launch game, select \color{Red}\sout{``Edit Levels"} ``Levels"\color{Black}, and should be redirected to the level that is selected.
 
 \item{FR-M-4}
 
@@ -172,6 +181,30 @@ Output: The arrow keys will change the item that is selected in the main menu.
 
 How test will be performed: Tester will log into the main menu of the game and check to see if the arrow keys cause the cursor to change item on the main menu and in the level select.
 
+\color{red}
+\item{FR-M-5}
+Type: Functional, Dynamic, Manual
+
+Initial State: Main Menu Screen
+
+Input: Select play game menu option, then quickly pressing escape on the keyboard.
+
+Output: The game will jump back to the main menu without generating an exception, even if it is loading levels while escape is pressed.
+
+How test will be performed: Tester will log into the main menu of the game and attempt to load into a level, then proceed to press escape to see if an error is generated, or successfully jumps back to the main menu.
+
+\item{FR-M-6}
+Type: Functional, Dynamic, Manual
+
+Initial State: Main Menu Screen and Subscreens
+
+Input: While in the main menu, input keys are not mapped to software inputs.
+
+Output: The game should not perform unexpectedly if an unknown key or key combination is pressed.
+
+How test will be performed: Tester will log into the main menu of the game and press each non-mapped key once, and non-OS key combinations once. The tester will do this for the level select as well.
+
+\color{Black}
 
 \subsubsection{Level Player}
 
@@ -212,6 +245,32 @@ Output: The camera for the level player, scrolls with Mario, and Mario cannot pa
 
 How test will be performed: Tester will load into any level, and play through the level, making sure the Mario does not move past the middle of the screen until the end of the level. The camera also must not move backwards.
 
+\color{red}
+\item{FR-LP-4}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: Level Player
+
+Input: Mario has just died.
+
+Output: Mario should not respond to movement commands, should not generate any sound attributed to movement commands, and no exception should occur.
+
+How test will be performed: Tester will load into any level, intentionally die, and see if the game will crash when Mario dies and receive movement input. This will confirm the proper output where Mario doesn't respond to movement commands and also will not generate an error when attempting to move him while dead.
+
+\item{FR-LP-5}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: Level Player
+
+Input: Un-mapped keys and key combinations from the keyboard.
+
+Output: The game should not perform unexpectedly when any un-mapped key/key combination is pressed.
+
+How test will be performed: Tester will load into any level, and proceed to press keys that are un-mapped.
+
+\color{Black}
 
 \subsubsection{Level Editor}
 
@@ -237,7 +296,7 @@ Input: User clicks on a location in the level editor.
 
 Output: The block type that appears in the location that is clicked is cycled when that location is clicked again.
 
-How test will be performed: User will enter the level editor using any level, and will click on a location in the map to check if the block cycles properly.
+How test will be performed: User will enter the level editor using any level, and will select a block by clicking the associated key then click on a location in the map to check if the block is placed properly.
 
 \item{FR-LE-3}
 
@@ -262,6 +321,46 @@ Input: Loading the level editor.
 Output: The proper level is loaded from the file and the user is able to edit.
 
 How test will be performed: The tester will load the level from the level select and check if the correct level is loaded by comparing the JSON file to what is displayed.
+
+\color{red}
+
+\item{FR-LE-5}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: Level Editor
+
+Input: Attempting to die in the level editor.
+
+Output: Mario will not die in the level editor, as he is immune to damage.
+
+How test will be performed: The tester will load the level from the level select and start creating a level. The tester will place a hazard in the form of an enemy and try to die, and won't be able to as Mario is immune when creating a level.
+
+\item{FR-LE-6}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: Level Editor
+
+Input: Placing enemies onto of each other.
+
+Output: The enemies will bounce off of each other, and not occupy the same space (will not have 100 enemies in one block area).
+
+How test will be performed: The tester will load the level from the level select and create a level by placing several Goombas or Koopas in a single location. The tester will confirm that the enemies will bounce and not take up the same space.
+
+\item{FR-LE-7}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: Level Editor
+
+Input: Un-mapped keys and key combinations from the keyboard.
+
+Output: The game should not perform unexpectedly when any un-mapped key/key combination is pressed.
+
+How test will be performed: Tester will load into any level, and proceed to press keys that are un-mapped.
+
+\color{Black}
 
 \end{enumerate}
 
@@ -348,53 +447,161 @@ Output: the game will not crash and will continue to run, not closing unexpected
 					
 How test will be performed: one of our group members will run several instances of the game on different machines, leaving them running and checking periodically to see if the game is still running. If the game has not crashed in 90 percent of tests within 3 hours of running, then it has passed the test.
 
+\color{red}
+\item{SS-7}
+
+Type: Structural, Dynamic, Manual
+
+Initial State: All of Main Menu, Level Editor, and Level player
+
+Input: The frame rate of the game is not visually impacted while playing the game.
+
+Output: The game will function normally and at a normal speed. Not slowing down or having lag.
+
+How test will be performed: The game will be run on each menu, as the only program running on the computer for extended period of time. The tester will make note of any slow downs or lag while the game is running.
+
+
+\color{black}
+
 \end{enumerate}
 
 \subsection{Traceability Between Test Cases and Requirements}
 
 \section{Tests for Proof of Concept}
 
-\subsection{Area of Testing1}
+\color{Red}
+\subsection{State-Changing Testing}
 		
-\paragraph{Title for Test}
+\paragraph{All tests that relate to occurrences in the game that should change the game state from menu, to game, to level editor.}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{PoC-S-1\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Type: Functional, Dynamic, Manual
 					
-Initial State: 
+Initial State: In Main Menu.
 					
-Input: 
+Input: Load into a level using the level menu option.
 					
-Output: 
+Output: Mario is now loaded into the level.
 					
-How test will be performed: 
+How test will be performed: A tester will launch the game and load into a level to see if the game switches to the level state as expected.
 					
-\item{test-id2\\}
+\item{PoC-S-2\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Type: Functional, Dynamic, Manual
 					
-Initial State: 
+Initial State: In Level Player.
 					
-Input: 
+Input: Mario reaches the end of the level and touches the flag pole.
 					
-Output: 
+Output: Mario enters the castle, points are calculated, and the game state is sent back to the main menu after a victory screen.
 					
-How test will be performed: 
+How test will be performed: A tester will create a level, play it out to the end without dying, and observe the output to ensure that Mario can win the game without any issues.
+					
+\item{PoC-S-3\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: In Main Menu.
+					
+Input: The X button in the top right corner is pressed to close the game.
+					
+Output: The game is closed without causing any system errors or memory leaks.
+					
+How test will be performed: A tester will launch the game, wait in the main menu for several minutes, then proceed to close the game via the X in the top right corner with a task manager open in the background. The game should close immediately and the task should disappear from the task manager.
+
+
+\item{PoC-S-4\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: In Level Editor.
+					
+Input: The X button in the top right corner is pressed to close the game.
+					
+Output: The game is closed without causing any system errors or memory leaks.
+					
+How test will be performed: A tester will launch the game, wait in the level editor for several minutes, then proceed to close the game via the X in the top right corner with a task manager open in the background. The game should close immediately and the task should disappear from the task manager.
+
+
+\item{PoC-S-5\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: In Level Player.
+					
+Input: The X button in the top right corner is pressed to close the game.
+					
+Output: The game is closed without causing any system errors or memory leaks.
+					
+How test will be performed: A tester will launch the game, wait in the level player for several minutes, then proceed to close the game via the X in the top right corner with a task manager open in the background. The game should close immediately and the task should disappear from the task manager.
 
 \end{enumerate}
 
-\subsection{Area of Testing2}
+\subsection{Movement Testing}
+		
+\paragraph{All tests that relate to occurrences in the game that should change the game state from menu, to game, to level editor.}
 
-...
+\begin{enumerate}
 
-	
+\item{PoC-M-1\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: In Level Player.
+					
+Input: Pressing on arrow keys left and right.
+					
+Output: Mario moves left and right, corresponding to which input is actively being pressed down.
+					
+How test will be performed: A tester will launch the game and load into a level and press either left or right arrow keys, to see if Mario correctly responds to input.
+
+\item{PoC-M-2\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: In Level Player.
+					
+Input: Pressing on jump key.
+					
+Output: Mario jumps into the air.
+					
+How test will be performed: A tester will launch the game and load into a level and press the jump key, to see if Mario correctly responds to input.
+\end{enumerate}
+
+\subsection{Sprite/Texture Testing}
+
+\item{PoC-ST-1\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: In Level Player.
+					
+Input: A pre-created level designed in the level editor with all the different sprites and textures on display.
+					
+Output: The level should generate correctly for the play with no missing sprites, everything displaying as it should.
+					
+How test will be performed: A tester will launch the game and load into a pre-created level and observe to see if all the textures and sprites load in correctly. This is to ensure that there are no artifacts when it comes to the sprites.
+
+\color{Black}
 \section{Comparison to Existing Implementation}	
+\color{Red}
+In this document, there exist tests that compare the current Mario-Level-X implementation to the existing implementation. Please refer to:
+
+\begin{enumerate}
+    \item FR-LP-1
+    \item FR-LP-2
+    \item PoC-M-1
+    \item PoC-M-2
+    \item PoC-ST-1
+\end{enumerate}
+
+\color{Black}
 				
 \section{Unit Testing Plan}
-	We will be using the python unittest library to do unit testing for this project.
+	We will be using the python unit-test library to do unit testing for this project.
 \subsection{Unit testing of internal functions}
 	To test the internal functions of our project, a good place to focus most of the testing is map creation methods such that they are fully functional for when the program starts reading and writing from map files. This will include testing of the functions that create the ground, pipes, or any other block that appears in the game. These tests will ensure that the methods operate correctly, meaning that a pipe declared to spawn at coordinates (200, 200) correctly spawns at the expected location. All map functions will be tested in a similar manner to ensure accuracy. An easy way to implement these tests is to return the coordinate values of any components added to the map, and compare these to what was written in the code. The goal is to achieve as close to 100 percent accuracy with our implementation, with the exception of any game-library restrictions that are beyond our control.
 	
@@ -417,6 +624,15 @@ Their values are defined in this section for easy maintenance.
 
 \subsection{Usability Survey Questions?}
 
-This is a section that would be appropriate for some teams.
+\color{Red}
 
+The Usability Survey will be used to ensure that the final product meets the original goal intended when modifying the existing implementation. The follow are a few examples of questions we might ask users:
+\begin{enumerate}
+    \item Is the gameplay experience sufficiently unique and fun in comparison to the original implementation?
+    \item On a scale of 1 to 10, how easy is it to load in and play the game without prior instruction of any controls?
+    \item Does the game visually resemble the original Mario-64 game?
+    \item Does our implementation improve on the original concept of this project?
+\end{enumerate}
+
+\color{Black}
 \end{document}
