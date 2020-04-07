@@ -57,6 +57,7 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 March 13, 2020 & All members & Rev0\\
+\textcolor{red}{April 6, 2020} & \textcolor{red}{All members} & \textcolor{red}{Rev1}\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -91,6 +92,9 @@ Pipe
 \hline
 Pipe &$\mathbb{Z}, \mathbb{Z}$ & Pipe & invalid\_coordinates\\
 \hline
+\textcolor{red}{serialize & & dict & \\}
+\hline
+
 
 \end{tabular}
 
@@ -122,6 +126,16 @@ None
 \item exception $ exc := (x \leq 0 \lor height \leq 0 ) \Rightarrow invalid\_coordinates $
 \end{itemize}
 
+\color{red}
+\noindent serialize():
+\begin{itemize}
+\item transition: $None$
+\item output: $out := $ dictionary with x and height
+\item exception $ None $
+\end{itemize}
+\color{black}
+
+
 \newpage
 
 \section* {Ground Module}
@@ -152,6 +166,8 @@ Ground
 \hline
 Ground &$\mathbb{Z}, \mathbb{Z}$ & Ground & invalid\_coordinates\\
 \hline
+\textcolor{red}{serialize & & dict & \\}
+\hline
 
 \end{tabular}
 
@@ -180,6 +196,15 @@ None
 \item output: $out := $A Ground object with x,width set to p1, p2
 \item exception $ exc := (x \leq 0 \lor width \leq 0 ) \Rightarrow invalid\_coordinates $
 \end{itemize}
+
+\color{red}
+\noindent serialize():
+\begin{itemize}
+\item transition: $None$
+\item output: $out := $ dictionary with p1 and p2
+\item exception $ None $
+\end{itemize}
+\color{black}
 
 \newpage
 
@@ -211,7 +236,7 @@ Step
 \hline
 Step &$\mathbb{Z}, \mathbb{Z}$ & Step & invalid\_coordinates\\
 \hline
-
+\textcolor{red}{serialize & & dict & \\}
 \end{tabular}
 
 \subsection* {Semantics}
@@ -237,6 +262,15 @@ None
 \item output: $out := $A Ground object with x,y set to p1, p2
 \item exception $ exc := (x \leq 0 \lor y \leq 0 ) \Rightarrow invalid\_coordinates $
 \end{itemize}
+
+\color{red}
+\noindent serialize():
+\begin{itemize}
+\item transition: $None$
+\item output: $out := $ dictionary with x and y
+\item exception $ None $
+\end{itemize}
+\color{black}
 
 \newpage
 
