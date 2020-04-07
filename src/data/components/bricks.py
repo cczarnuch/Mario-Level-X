@@ -1,3 +1,6 @@
+## @file bricks.py
+#  @title Brick Component Class
+
 __author__ = 'justinarmstrong'
 
 import pygame as pg
@@ -7,8 +10,17 @@ from . import powerups
 from . import coin
 
 
+## @brief A class to represent a Brick
 class Brick(pg.sprite.Sprite):
     """Bricks that can be destroyed"""
+
+    ## @brief Brick Constructor
+    #  @details intializes brick component
+    #  @param x x-pixel coordinate 
+    #  @param y y-pixel coordinate 
+    #  @param contents string representing contents inside the brick when bumped (optional)
+    #  @param powerup_group pygame.sprite group that the brick powerup belongs to (optional) 
+    #  @param name name of the brick (optional) 
     def __init__(self, x, y, contents=None, powerup_group=None, name='brick'):
         """Initialize the object"""
         pg.sprite.Sprite.__init__(self)
@@ -31,6 +43,9 @@ class Brick(pg.sprite.Sprite):
         self.group = powerup_group
         self.powerup_in_box = True
 
+    ## @brief sets the x and y values of the screen
+    #  @parm x x-pixel coordinate 
+    #  @parm x y-pixel coordinate 
     def set_dimensions(self,x,y):
         x -= self.rect.w // 2
         y -= self.rect.h // 2
@@ -41,6 +56,8 @@ class Brick(pg.sprite.Sprite):
         #return y after bounce
         self.rest_height = self.rect.y
 
+    ## @brief Gets object x and y values as dictionary
+    #  @return dictionary object with the x and y key values
     def serialize(self):
         return {
             'x': self.rect.x,

@@ -1,3 +1,5 @@
+## @file coin_box.py
+#  @title Coin Box Component Class
 __author__ = 'justinarmstrong'
 
 import pygame as pg
@@ -8,9 +10,15 @@ from . import powerups
 from . import coin
 
 
-
+## @brief A class to represent a Coin Box
 class Coin_box(pg.sprite.Sprite):
-    """Coin box sprite"""
+
+    ## @brief Coin Box Constructor
+    #  @details intializes Coin Box component
+    #  @param x x-pixel coordinate 
+    #  @param y y-pixel coordinate 
+    #  @param contents string representing contents inside the coin box when bumped (optional)
+    #  @param group pygame.sprite group that the powerup belongs to (optional) 
     def __init__(self, x, y, contents='coin', group=None):
         pg.sprite.Sprite.__init__(self)
         self.sprite_sheet = setup.GFX['tile_set']
@@ -30,7 +38,9 @@ class Coin_box(pg.sprite.Sprite):
         self.contents = contents
         self.group = group
 
-
+    ## @brief sets the x and y values of the screen
+    #  @parm x x-pixel coordinate 
+    #  @parm x y-pixel coordinate 
     def set_dimensions(self,x,y):
         x -= self.rect.w // 2
         y -= self.rect.h // 2
@@ -40,6 +50,9 @@ class Coin_box(pg.sprite.Sprite):
         #return y after bounce
         self.rest_height = self.rect.y
 
+
+    ## @brief Gets object x and y values as dictionary
+    #  @return dictionary object with the x,y,content key values
     def serialize(self):
         return {
             'x': self.rect.x,

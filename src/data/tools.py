@@ -1,3 +1,6 @@
+## @file tools.py
+#  @title Utility classes and functions
+
 __author__ = 'justinarmstrong'
 
 import os
@@ -13,10 +16,12 @@ keybinding = {
     'down':pg.K_DOWN
 }
 
+## @brief A class that controls the game states
 class Control(object):
     """Control class for entire project. Contains the game loop, and contains
     the event_loop which passes events to States as needed. Logic for flipping
     states is also found here."""
+
     def __init__(self, caption):
         self.screen = pg.display.get_surface()
         self.done = False
@@ -83,7 +88,10 @@ class Control(object):
                 pg.display.set_caption(with_fps)
 
 
+## @brief Abstract base class represents a state of the game
 class _State(object):
+    ## @brief Box3D constructor
+    #  @details intializes the game state variables
     def __init__(self):
         self.start_time = 0.0
         self.current_time = 0.0
@@ -92,7 +100,10 @@ class _State(object):
         self.next = None
         self.previous = None
         self.persist = {}
-
+    
+    ## @brief Abstract method to access the current pygame.event
+    #  @details Called by control everytime an event occurs
+    #  @param event pygame.event object representing user events (mouse, keyboard, etc)
     def get_event(self, event):
         pass
 
@@ -100,10 +111,17 @@ class _State(object):
         self.persist = persistant
         self.start_time = current_time
 
+   
     def cleanup(self):
         self.done = False
         return self.persist
 
+
+    ## @brief Abstract method called once every frame
+    #  @details Called by control every frame
+    #  @param surface pygme.surface representing game window
+    #  @param keys pygme.keys representing keys pressed
+    #  @param current_time number representing elapsed time of game in seconds
     def update(self, surface, keys, current_time):
         pass
 
@@ -145,7 +163,6 @@ def load_all_sfx(directory, accept=('.wav','.mpe','.ogg','.mdi')):
     return effects
 
 
-#parse json
 def load_level_json(filename):
     with open(os.path.join('resources', 'levels', filename), 'r') as f: 
         return json.loads(f.read())
